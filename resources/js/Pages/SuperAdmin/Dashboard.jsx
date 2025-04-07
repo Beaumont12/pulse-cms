@@ -1,5 +1,7 @@
-import React from 'react';
-import { Box, Grid, Typography, Paper, Breadcrumbs, Link, Button, useMediaQuery } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Box, Grid, Typography, Paper, Breadcrumbs, Link, Button, useMediaQuery
+} from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Sidebar from '../../Components/Sidebar';
 import { useTheme } from '@mui/material/styles';
@@ -7,24 +9,39 @@ import { useTheme } from '@mui/material/styles';
 export default function SuperAdminDashboard() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [expanded, setExpanded] = useState(true);
+  const SIDEBAR_WIDTH_EXPANDED = 260;
+  const SIDEBAR_WIDTH_COLLAPSED = 80;
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', overflow: 'hidden', flexDirection: { xs: 'column', md: 'row' } }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
       {/* Sidebar */}
-      <Box sx={{ width: { xs: '100%', md: 240 }, flexShrink: 0 }}>
-        <Sidebar role="super_admin" />
-      </Box>
+      <Sidebar role="super_admin" expanded={expanded} onToggle={() => setExpanded(prev => !prev)} />
 
       {/* Main Content */}
       <Box
         sx={{
           flexGrow: 1,
-          overflowY: 'auto',
+          ml: {
+            xs: 0,
+            md: expanded ? `${SIDEBAR_WIDTH_EXPANDED}px` : `${SIDEBAR_WIDTH_COLLAPSED}px`
+          },
+          transition: 'margin 0.4s ease-in-out',
           p: { xs: 2, sm: 3, md: 4 },
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#F9F9FC',
           width: '100%',
         }}
       >
+        {/* Page Title */}
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h4" fontWeight="bold" color="#450001">
+            Super Admin Dashboard
+          </Typography>
+          <Typography variant="subtitle2" color="text.secondary">
+            Overview and quick statistics
+          </Typography>
+        </Box>
+
         {/* Breadcrumbs */}
         <Box
           sx={{
@@ -37,8 +54,7 @@ export default function SuperAdminDashboard() {
           }}
         >
           <Breadcrumbs
-            separator={<NavigateNextIcon fontSize="small" />}
-            aria-label="breadcrumb"
+            separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb"
             sx={{
               maxWidth: '100%',
               justifyContent: 'center',
@@ -49,9 +65,7 @@ export default function SuperAdminDashboard() {
               px: 1,
             }}
           >
-            <Link underline="hover" color="inherit" href="#">
-              Home
-            </Link>
+            <Link underline="hover" color="inherit" href="#">Home</Link>
             <Typography color="text.primary">Dashboard</Typography>
           </Breadcrumbs>
         </Box>
@@ -78,7 +92,7 @@ export default function SuperAdminDashboard() {
           </Grid>
         </Grid>
 
-        {/* Line Graph Placeholder */}
+        {/* Graph Placeholder */}
         <Paper
           elevation={3}
           sx={{
@@ -95,26 +109,20 @@ export default function SuperAdminDashboard() {
           <Typography variant="body1" color="text.secondary">
             [Graph Placeholder]
           </Typography>
-          <Button variant="outlined" size="small">
-            Date ▼
-          </Button>
+          <Button variant="outlined" size="small">Date ▼</Button>
         </Paper>
 
-        {/* Gauges */}
+        {/* Gauge Charts */}
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 2, borderRadius: 3 }}>
-              <Typography fontWeight="bold" color="#450001" mb={1}>
-                Participation Rate
-              </Typography>
+              <Typography fontWeight="bold" color="#450001" mb={1}>Participation Rate</Typography>
               <Typography color="text.secondary">[Gauge Chart Placeholder]</Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 2, borderRadius: 3 }}>
-              <Typography fontWeight="bold" color="#450001" mb={1}>
-                Completion Rate
-              </Typography>
+              <Typography fontWeight="bold" color="#450001" mb={1}>Completion Rate</Typography>
               <Typography color="text.secondary">[Gauge Chart Placeholder]</Typography>
             </Paper>
           </Grid>

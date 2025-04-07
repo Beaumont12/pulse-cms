@@ -1,140 +1,204 @@
-import React, { useState } from 'react';
+// ✅ Sidebar.jsx (Updated to lift "expanded" state to parent)
+import React from 'react';
 import {
-  Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText,
-  Avatar, Typography, Divider, IconButton, useMediaQuery
+  List, ListItemButton, ListItemIcon, ListItemText,
+  Avatar, Typography, IconButton, Tooltip, Badge
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import SettingsIcon from '@mui/icons-material/Settings';
-import QuizIcon from '@mui/icons-material/Quiz';
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
-import FeedbackIcon from '@mui/icons-material/Feedback';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import logo from '../assets/logo.svg';
+import {
+  Menu as MenuIcon,
+  Home as HomeIcon,
+  Person as PersonIcon,
+  ContentPaste as ContentPasteIcon,
+  InsertChartOutlined as InsertChartIcon,
+  Folder as FolderIcon,
+  NotificationsNone as NotificationsIcon,
+  SettingsOutlined as SettingsIcon,
+  InfoOutlined as InfoIcon,
+  Quiz as QuizIcon,
+  Leaderboard as LeaderboardIcon,
+  Feedback as FeedbackIcon,
+  HelpOutline as HelpIcon,
+  LibraryBooks as LibraryBooksIcon,
+  Assessment as AssessmentIcon,
+} from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import logo from '../assets/logo.svg';
+
+const baseItems = (role) => [
+  { text: 'Dashboard', icon: <HomeIcon fontSize="small" />, path: `/${role}/dashboard` },
+  { text: 'Users', icon: <PersonIcon fontSize="small" />, path: `/${role}/manage-users` },
+  { text: 'Courses', icon: <ContentPasteIcon fontSize="small" />, path: `/${role}/manage-courses` },
+  { text: 'Reports', icon: <InsertChartIcon fontSize="small" />, path: `/${role}/view-reports` },
+  { text: 'Files', icon: <FolderIcon fontSize="small" />, path: `/${role}/files` },
+  { text: 'Notifications', icon: <NotificationsIcon fontSize="small" />, path: `/${role}/notifications`, hasBadge: true },
+  { text: 'Settings', icon: <SettingsIcon fontSize="small" />, path: `/${role}/settings` },
+  { text: 'Help', icon: <InfoIcon fontSize="small" />, path: `/${role}/help` },
+];
 
 const menuItems = {
-  super_admin: [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/superadmin/dashboard' },
-    { text: 'Manage Users', icon: <PeopleIcon />, path: '/superadmin/manage-users' },
-    { text: 'Manage Courses', icon: <LibraryBooksIcon />, path: '/superadmin/manage-courses' },
-    { text: 'Reports', icon: <AssessmentIcon />, path: '/superadmin/view-reports' },
-    { text: 'Settings', icon: <SettingsIcon />, path: '/superadmin/settings' },
-  ],
-  admin: [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin/dashboard' },
-    { text: 'Manage Teachers', icon: <PeopleIcon />, path: '/admin/manage-teachers' },
-    { text: 'Manage Students', icon: <PeopleIcon />, path: '/admin/manage-students' },
-    { text: 'Program CMS', icon: <LibraryBooksIcon />, path: '/admin/program-cms' },
-    { text: 'Reports', icon: <AssessmentIcon />, path: '/admin/reports' },
-  ],
+  super_admin: baseItems('superadmin'),
+  admin: baseItems('admin'),
   teacher: [
     { header: 'Manage' },
-    { text: 'Quizzes', icon: <QuizIcon />, path: '/teacher/quizzes' },
-    { text: 'Question Bank', icon: <LibraryBooksIcon />, path: '/teacher/question-bank' },
-    { text: 'Courses', icon: <LibraryBooksIcon />, path: '/teacher/courses' },
-    { text: 'Avatars', icon: <PeopleIcon />, path: '/teacher/avatars' },
+    { text: 'Quizzes', icon: <QuizIcon fontSize="small" />, path: '/teacher/quizzes' },
+    { text: 'Question Bank', icon: <LibraryBooksIcon fontSize="small" />, path: '/teacher/question-bank' },
+    { text: 'Courses', icon: <LibraryBooksIcon fontSize="small" />, path: '/teacher/courses' },
+    { text: 'Avatars', icon: <PersonIcon fontSize="small" />, path: '/teacher/avatars' },
     { header: 'Play' },
-    { text: 'Active', icon: <AssessmentIcon />, path: '/teacher/active' },
-    { text: 'Reports', icon: <AssessmentIcon />, path: '/teacher/reports' },
-    { text: 'Leaderboard', icon: <LeaderboardIcon />, path: '/teacher/leaderboard' },
-    { text: 'Participants', icon: <PeopleIcon />, path: '/teacher/participants' },
+    { text: 'Active', icon: <AssessmentIcon fontSize="small" />, path: '/teacher/active' },
+    { text: 'Reports', icon: <AssessmentIcon fontSize="small" />, path: '/teacher/reports' },
+    { text: 'Leaderboard', icon: <LeaderboardIcon fontSize="small" />, path: '/teacher/leaderboard' },
+    { text: 'Participants', icon: <PersonIcon fontSize="small" />, path: '/teacher/participants' },
     { header: 'Product' },
-    { text: 'Feedback', icon: <FeedbackIcon />, path: '/teacher/feedback' },
-    { text: 'Help', icon: <HelpOutlineIcon />, path: '/teacher/help' },
+    { text: 'Feedback', icon: <FeedbackIcon fontSize="small" />, path: '/teacher/feedback' },
+    { text: 'Help', icon: <HelpIcon fontSize="small" />, path: '/teacher/help' },
   ],
 };
 
-export default function Sidebar({ role = 'super_admin' }) {
+const sidebarVariants = {
+  expanded: {
+    width: 260,
+    transition: { type: 'spring', stiffness: 200, damping: 25 },
+  },
+  collapsed: {
+    width: 80,
+    transition: { type: 'spring', stiffness: 200, damping: 25 },
+  },
+};
+
+export default function Sidebar({ role = 'super_admin', expanded, onToggle }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const [mobileOpen, setMobileOpen] = useState(false);
   const items = menuItems[role];
 
-  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-
-  const sidebarContent = (
-    <Box sx={{ width: 250, pt: 2 }}>
-      <Box textAlign="center">
-        <Avatar src={logo} sx={{ width: 64, height: 64, mx: 'auto', mb: 1 }} />
-        <Typography variant="h6" fontWeight="bold" color="#450001">Pulse</Typography>
-        <Typography
-          variant="caption"
-          sx={{
-            bgcolor: '#8E0000',
-            color: '#FAFAFF',
-            borderRadius: 8,
-            px: 1.5,
-            py: 0.2,
-            fontWeight: 'bold',
-            mt: 0.5,
-            textTransform: 'capitalize',
-          }}
-        >
-          {role.replace('_', ' ')}
-        </Typography>
-      </Box>
-      <Divider sx={{ my: 2 }} />
-      <List>
-        {items.map((item, index) =>
-          item.header ? (
-            <Typography
-              key={`header-${index}`}
-              variant="caption"
-              sx={{ pl: 3, pt: 1, pb: 0.5, fontWeight: 'bold', color: '#8E0000' }}
-            >
-              {item.header}
-            </Typography>
-          ) : (
-            <ListItemButton
-              key={item.text}
-              selected={location.pathname === item.path}
-              onClick={() => {
-                navigate(item.path);
-                if (isMobile) setMobileOpen(false);
-              }}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          )
-        )}
-      </List>
-    </Box>
-  );
-
   return (
-    <>
-      {isMobile && (
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ position: 'fixed', top: 16, left: 16, zIndex: 1300 }}
-        >
-          <MenuIcon />
-        </IconButton>
-      )}
-      <Drawer
-        variant={isMobile ? 'temporary' : 'permanent'}
-        open={isMobile ? mobileOpen : true}
-        onClose={handleDrawerToggle}
-        ModalProps={{ keepMounted: true }}
-        sx={{
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: 250,
-            bgcolor: '#FAFAFF',
-          },
-        }}
-      >
-        {sidebarContent}
-      </Drawer>
-    </>
+    <motion.div
+      variants={sidebarVariants}
+      animate={expanded ? 'expanded' : 'collapsed'}
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#F9F9FC',
+        paddingTop: 24,
+        paddingBottom: 24,
+        paddingLeft: expanded ? 16 : 8,
+        paddingRight: expanded ? 16 : 8,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        zIndex: 1200,
+        overflowX: 'hidden',
+      }}
+    >
+      {/* Header */}
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
+          <Avatar src={logo} sx={{ width: 40, height: 40, marginRight: expanded ? 2 : 0 }} />
+          {expanded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.15 }}
+            >
+              <Typography variant="h6" fontWeight="bold" color="#450001">Pulse</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  bgcolor: '#8E0000',
+                  color: '#fff',
+                  borderRadius: 1,
+                  px: 1,
+                  fontSize: '10px',
+                  fontWeight: 700,
+                }}
+              >
+                {role.replace('_', ' ')}
+              </Typography>
+            </motion.div>
+          )}
+          <IconButton onClick={onToggle} sx={{ ml: 'auto', color: '#450001' }}>
+            <MenuIcon />
+          </IconButton>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <List sx={{ gap: 0.5 }}>
+          {items.filter(item => !['Notifications', 'Settings', 'Help'].includes(item.text)).map((item, index) => (
+            <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
+              <ListItemButton
+                onClick={() => navigate(item.path)}
+                selected={location.pathname === item.path}
+                sx={{
+                  justifyContent: expanded ? 'flex-start' : 'center',
+                  px: 2,
+                  py: 1.2,
+                  borderRadius: 2,
+                  alignItems: 'center',
+                  bgcolor: location.pathname === item.path ? '#F5F5F5' : 'transparent',
+                  color: location.pathname === item.path ? '#8E0000' : '#450001',
+                  '&:hover': { bgcolor: '#F5F5F5' },
+                  gap: 1.5,
+                  transition: 'all 0.3s ease-in-out',
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 0, color: 'inherit', justifyContent: 'center', display: 'flex', mr: expanded ? 1.5 : 0 }}>
+                  {item.hasBadge ? (
+                    <Badge color="error" variant="dot">{item.icon}</Badge>
+                  ) : (
+                    item.icon
+                  )}
+                </ListItemIcon>
+                {expanded && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+                    <ListItemText primary={item.text} />
+                  </motion.div>
+                )}
+              </ListItemButton>
+            </Tooltip>
+          ))}
+        </List>
+
+        <List sx={{ mt: 4, gap: 0.5 }}>
+          {items.filter(item => ['Notifications', 'Settings', 'Help'].includes(item.text)).map((item, index) => (
+            <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
+              <ListItemButton
+                onClick={() => navigate(item.path)}
+                selected={location.pathname === item.path}
+                sx={{
+                  justifyContent: expanded ? 'flex-start' : 'center',
+                  px: 2,
+                  py: 1.2,
+                  borderRadius: 2,
+                  alignItems: 'center',
+                  bgcolor: location.pathname === item.path ? '#F5F5F5' : 'transparent',
+                  color: location.pathname === item.path ? '#8E0000' : '#450001',
+                  '&:hover': { bgcolor: '#F5F5F5' },
+                  gap: 1.5,
+                  transition: 'all 0.3s ease-in-out',
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 0, color: 'inherit', justifyContent: 'center', display: 'flex', mr: expanded ? 1.5 : 0 }}>
+                  {item.hasBadge ? (
+                    <Badge color="error" variant="dot">{item.icon}</Badge>
+                  ) : (
+                    item.icon
+                  )}
+                </ListItemIcon>
+                {expanded && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+                    <ListItemText primary={item.text} />
+                  </motion.div>
+                )}
+              </ListItemButton>
+            </Tooltip>
+          ))}
+        </List>
+      </div>
+    </motion.div>
   );
 }
