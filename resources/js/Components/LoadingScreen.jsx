@@ -14,6 +14,8 @@ function preloadImage(src) {
 
 export default function LoadingScreen({ onLoaded }) {
   const [show, setShow] = useState(true);
+  const [message, setMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     const loadAssets = async () => {
@@ -21,14 +23,16 @@ export default function LoadingScreen({ onLoaded }) {
       console.log('[DEBUG] LoadingScreen mounted. Token:', token);
 
       try {
-        // Wait for image assets to be loaded
         await Promise.all([
           preloadImage(logo),
           preloadImage(bgImage),
-          new Promise((resolve) => setTimeout(resolve, 1000)), // Add delay for UX smoothness
+          new Promise((resolve) => setTimeout(resolve, 1000)), // Smooth UX
         ]);
 
+        // Animate exit
         setTimeout(() => setShow(false), 2200);
+
+        // Proceed to app
         setTimeout(() => {
           console.log('[DEBUG] Triggering onLoaded after assets loaded and animations done');
           onLoaded();
@@ -36,8 +40,13 @@ export default function LoadingScreen({ onLoaded }) {
 
       } catch (error) {
         console.error('[ERROR] Failed to load assets:', error);
-        setMessage('Error loading assets. Please refresh.');
+        setMessage('Error loading assets. Loading anyway...');
         setShowAlert(true);
+
+        // Still allow app to load after delay
+        setTimeout(() => {
+          onLoaded();
+        }, 3000);
       }
     };
 
@@ -70,6 +79,7 @@ export default function LoadingScreen({ onLoaded }) {
           },
         }}
       >
+        {/* 🔄 Loading Logo with Spinner */}
         <Box sx={{ position: 'relative', width: 200, height: 200, zIndex: 2 }}>
           <CircularProgress
             size={200}
@@ -95,6 +105,23 @@ export default function LoadingScreen({ onLoaded }) {
             }}
           />
         </Box>
+
+        {/* ⚠️ Error Message */}
+        {showAlert && (
+          <Alert
+            severity="error"
+            sx={{
+              position: 'absolute',
+              bottom: 20,
+              zIndex: 999,
+              backgroundColor: '#FFF5F5',
+              color: '#8E0000',
+              border: '1px solid #C12923',
+            }}
+          >
+            {message}
+          </Alert>
+        )}
       </Box>
     </Fade>
   );

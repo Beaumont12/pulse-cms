@@ -10,4 +10,7 @@ export default defineConfig({
         }),
         react(),
     ],
+    server: {
+        historyApiFallback: true, // ✅ Add this line!
+      },
 });

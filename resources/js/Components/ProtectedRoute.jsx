@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ref, get } from 'firebase/database';
 import { auth, db } from '../firebase';
-import LoadingScreen from './LoadingScreen'; // make sure the path is correct!
+import LoadingScreen from './LoadingScreen';
 
 export default function ProtectedRoute({ children, allowedRoles }) {
   const [user, setUser] = useState(null);
@@ -12,23 +12,31 @@ export default function ProtectedRoute({ children, allowedRoles }) {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (currentUser) => {
+      console.log('[AuthState] currentUser:', currentUser);
+  
       if (currentUser) {
         setUser(currentUser);
         const roleSnap = await get(ref(db, `users/${currentUser.uid}/role`));
-        setRole(roleSnap.exists() ? roleSnap.val() : null);
+        const userRole = roleSnap.exists() ? roleSnap.val() : null;
+        console.log('[Role] from Firebase:', userRole);
+        setRole(userRole);
       } else {
         setUser(null);
         setRole(null);
       }
       setChecking(false);
     });
+  
 
     return () => unsub();
   }, []);
 
   if (checking) return <LoadingScreen />;
 
-  if (!user || !allowedRoles.includes(role)) return <Navigate to="/" />;
+  if (!user || !allowedRoles.includes(role)) {
+    console.warn('[🚫] Access Denied — Redirecting');
+    return <Navigate to="/" />;
+  }
 
   return children;
 }

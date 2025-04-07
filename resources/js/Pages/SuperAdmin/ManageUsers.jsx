@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import {
   Box, Typography, Paper, Grid, Tabs, Tab, Breadcrumbs, Link, IconButton
 } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,6 +15,7 @@ export default function ManageUsers() {
   const SIDEBAR_WIDTH_EXPANDED = 260;
   const SIDEBAR_WIDTH_COLLAPSED = 80;
   const [tabValue, setTabValue] = useState(0);
+  const tabLabels = ['Manage User', 'Add User', 'Password Resets & Account Recovery'];
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -31,14 +35,43 @@ export default function ManageUsers() {
         }}
       >
         {/* Page Title and Breadcrumbs */}
-        <Box mb={2}>
-          <Typography variant="h5" fontWeight="bold" color="#450001">User Management</Typography>
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h4" fontWeight="bold" color="#450001">
+            User Management
+          </Typography>
+          <Typography variant="subtitle2" color="text.secondary">
+            Manage users, roles and access
+          </Typography>
         </Box>
 
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3 }}>
-          <Link underline="hover" color="inherit" href="#">User Management</Link>
-          <Typography color="text.primary">Manage User</Typography>
-        </Breadcrumbs>
+        {/* Breadcrumbs */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mb: 3,
+            mt: { xs: 1, sm: 0 },
+            textAlign: 'center',
+          }}
+        >
+          <Breadcrumbs
+            separator={<NavigateNextIcon fontSize="small" />}
+            aria-label="breadcrumb"
+            sx={{
+              maxWidth: '100%',
+              justifyContent: 'center',
+              display: 'flex',
+              flexWrap: 'wrap',
+              fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.95rem' },
+              wordBreak: 'break-word',
+              px: 1,
+            }}
+          >
+            <Link underline="hover" color="inherit" href="#">User Management</Link>
+            <Typography color="text.primary">Manage User</Typography>
+          </Breadcrumbs>
+        </Box>
 
         {/* Nested Sidebar as Tabs */}
         <Tabs
@@ -47,11 +80,33 @@ export default function ManageUsers() {
           orientation="vertical"
           variant="scrollable"
           scrollButtons="auto"
-          sx={{ mb: 3, backgroundColor: '#fff', borderRadius: 2, width: 200, float: 'left', mr: 4 }}
+          sx={{
+            mb: 3,
+            backgroundColor: '#fff',
+            borderRadius: 2,
+            width: 240,
+            float: 'left',
+            mr: 4,
+            height: '100%',
+            '& .MuiTab-root': {
+              justifyContent: 'flex-start',
+              gap: 1.5,
+              px: 2,
+              alignItems: 'center',
+              color: '#450001',
+              fontWeight: 500,
+              textTransform: 'none',
+              fontSize: '0.95rem',
+            },
+            '& .Mui-selected': {
+              bgcolor: '#F5F5F5',
+              color: '#8E0000',
+            },
+          }}
         >
-          <Tab label="Manage User" />
-          <Tab label="Add User" />
-          <Tab label="Password Resets & Account Recovery" />
+          <Tab icon={<PersonIcon fontSize="small" />} iconPosition="start" label="Manage User" />
+          <Tab icon={<PersonAddIcon fontSize="small" />} iconPosition="start" label="Add User" />
+          <Tab icon={<LockResetIcon fontSize="small" />} iconPosition="start" label="Password Resets & Account Recovery" />
         </Tabs>
 
         {/* Content Based on Tab Selection */}
