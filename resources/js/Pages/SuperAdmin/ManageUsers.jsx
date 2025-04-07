@@ -55,21 +55,13 @@ export default function ManageUsers() {
             textAlign: 'center',
           }}
         >
-          <Breadcrumbs
-            separator={<NavigateNextIcon fontSize="small" />}
-            aria-label="breadcrumb"
-            sx={{
-              maxWidth: '100%',
-              justifyContent: 'center',
-              display: 'flex',
-              flexWrap: 'wrap',
-              fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.95rem' },
-              wordBreak: 'break-word',
-              px: 1,
-            }}
-          >
-            <Link underline="hover" color="inherit" href="#">User Management</Link>
-            <Typography color="text.primary">Manage User</Typography>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3 }}>
+            <Link underline="hover" color="inherit" href="#">
+              User Management
+            </Link>
+            <Typography color="text.primary">
+              {tabLabels[tabValue]}
+            </Typography>
           </Breadcrumbs>
         </Box>
 
