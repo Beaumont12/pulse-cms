@@ -9,7 +9,7 @@ import LoadingScreen from './components/LoadingScreen';
 const theme = createTheme({
   palette: {
     primary: { main: '#450001' },
-    background: { default: '#fffafa' },
+    background: { default: '#FAFAFF' },
   },
   typography: {
     fontFamily: `'Poppins', 'Figtree', sans-serif`,
