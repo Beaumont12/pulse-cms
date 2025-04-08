@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box, Button, TextField, Typography, CircularProgress, Fade, Paper, Alert
 } from '@mui/material';
@@ -12,6 +12,7 @@ import bgImage from '../../assets/bg.webp';
 import mascot from '../../assets/doctorcoby.svg';
 import { keyframes } from '@emotion/react';
 import quips from '../../assets/coby_quips.json';
+import themeSong from '../../assets/Music/PokemonTheme.mp3';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -23,6 +24,7 @@ export default function Login() {
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const audioRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -51,6 +53,22 @@ export default function Login() {
   ];
 
   useEffect(() => {
+    const playAudio = () => {
+      if (audioRef.current) {
+        audioRef.current.volume = 0.3; // optional: lower volume
+        audioRef.current.play().catch((err) => {
+          console.warn('[DEBUG] Audio play failed:', err);
+        });
+      }
+      window.removeEventListener('click', playAudio); // only play once
+    };
+  
+    window.addEventListener('click', playAudio);
+  
+    return () => window.removeEventListener('click', playAudio);
+  }, []);  
+
+  useEffect(() => {
     const currentText = dialogTexts[currentDialogIndex];
     setDisplayedText('');
     setIsTyping(true);
@@ -72,6 +90,22 @@ export default function Login() {
     const timer = setTimeout(() => setFadeIn(true), 400);
     return () => clearTimeout(timer);
   }, []);
+
+  const fadeOutAudio = () => {
+    if (!audioRef.current) return;
+  
+    let volume = audioRef.current.volume;
+    const fadeInterval = setInterval(() => {
+      if (volume > 0.01) {
+        volume -= 0.02;
+        audioRef.current.volume = volume;
+      } else {
+        clearInterval(fadeInterval);
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0; // reset to beginning if needed
+      }
+    }, 60); // smoother fade over ~3 seconds
+  };  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -97,6 +131,7 @@ export default function Login() {
       switch (role) {
         case 'super_admin':
           setSuccess('Login successful! Redirecting...');
+          fadeOutAudio();
           setTimeout(() => {
             setSuccess('');
             navigate('/superadmin/dashboard');
@@ -104,6 +139,7 @@ export default function Login() {
           break;
         case 'admin':
           setSuccess('Login successful! Redirecting...');
+          fadeOutAudio();
           setTimeout(() => {
             setSuccess('');
             navigate('/admin/dashboard');
@@ -111,6 +147,7 @@ export default function Login() {
           break;
         case 'teacher':
           setSuccess('Login successful! Redirecting...');
+          fadeOutAudio();
           setTimeout(() => {
             setSuccess('');
             navigate('/teacher/dashboard');
@@ -118,6 +155,7 @@ export default function Login() {
           break;
         case 'student':
           setSuccess('Login successful! Redirecting...');
+          fadeOutAudio();
           setTimeout(() => {
             setSuccess('');
             navigate('/student/game');
@@ -162,6 +200,8 @@ export default function Login() {
 
   return (
     <>
+    <audio ref={audioRef} src={themeSong} loop hidden />
+
     {success && (
       <Fade in={Boolean(success)}>
         <Alert
@@ -383,7 +423,7 @@ export default function Login() {
               color="#450001"
               sx={{ fontSize: { xs: '1.3rem', md: '1.6rem' } }}
             >
-              Log In to PULSE
+              PULSE: A Medical Odyssey
             </Typography>
 
             {error && (
