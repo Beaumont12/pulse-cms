@@ -64,8 +64,15 @@ export default function LearningManagement() {
         </Box>
 
         {/* Breadcrumbs */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: 3,
+          mt: { xs: 1, sm: 0 },
+          textAlign: 'center',
+         }}>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3 }}>
             <Link underline="hover" color="inherit" href="#">
               Learning Management
             </Link>

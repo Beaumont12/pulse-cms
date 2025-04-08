@@ -43,7 +43,14 @@ export default function ViewReports() {
         </Box>
 
         {/* Breadcrumbs */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+        <Box sx={{ 
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: 3,
+          mt: { xs: 1, sm: 0 },
+          textAlign: 'center',
+         }}>
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3 }}>
             <Link underline="hover" color="inherit" href="#">
               Report and Analytics
