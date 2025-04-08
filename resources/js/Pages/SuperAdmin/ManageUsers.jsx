@@ -25,11 +25,11 @@ export default function ManageUsers() {
         borderRight: '1px solid #eee',
         display: 'flex',
         flexDirection: 'column',
-        py: 1,
+        py: 2,
       }}>
         {/* Title + Subtitle inside sidebar */}
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
-          <Typography variant="subtitle1" fontWeight="bold" color="#450001">
+          <Typography variant="h5" fontWeight="bold" color="#450001">
             User Management
           </Typography>
           <Typography variant="caption" color="text.secondary">

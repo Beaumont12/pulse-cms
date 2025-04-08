@@ -26,6 +26,16 @@ export default function ViewReports() {
         flexDirection: 'column',
         py: 2,
       }}>
+        {/* Title and Subtitle */}
+        <Box sx={{ mb: 2, mt: 2, p: 2 }}>
+          <Typography variant="h5" fontWeight="bold" color="#450001">
+            Reports & Analytics
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            Visualize progress and assessment performance
+          </Typography>
+        </Box>
+
         <Tabs
           value={tabValue}
           onChange={handleTabChange}
@@ -63,16 +73,7 @@ export default function ViewReports() {
 
       {/* Main Content Area */}
       <Box sx={{ flexGrow: 1, p: 4 }}>
-        {/* Title and Subtitle */}
-        <Box sx={{ mb: 5 }}>
-          <Typography variant="h4" fontWeight="bold" color="#450001">
-            Report and Analytics
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            Visualize progress and assessment performance
-          </Typography>
-        </Box>
-
+        
         {/* Breadcrumbs */}
         <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 4 }}>
           <Link underline="hover" color="inherit" href="#">

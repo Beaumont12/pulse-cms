@@ -26,6 +26,16 @@ export default function FileManagement() {
         flexDirection: 'column',
         py: 2,
       }}>
+        {/* Title + Subtitle */}
+        <Box sx={{ mb: 2, mt: 2, p: 2 }}>
+          <Typography variant="h5" fontWeight="bold" color="#450001">
+            Content and File Management
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            Manage downloadable content and uploaded resources
+          </Typography>
+        </Box>
+
         <Tabs
           value={tabValue}
           onChange={handleTabChange}
@@ -63,16 +73,7 @@ export default function FileManagement() {
 
       {/* Main Content Area */}
       <Box sx={{ flexGrow: 1, p: 4 }}>
-        {/* Title + Subtitle */}
-        <Box sx={{ mb: 5 }}>
-          <Typography variant="h4" fontWeight="bold" color="#450001">
-            Content and File Management
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            Manage downloadable content and uploaded resources
-          </Typography>
-        </Box>
-
+        
         {/* Breadcrumbs */}
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}
