@@ -31,7 +31,7 @@ export default function ProtectedRoute({ children, allowedRoles }) {
     return () => unsub();
   }, []);
 
-  if (checking) return <LoadingScreen />;
+  if (checking) return null;
 
   if (!user || !allowedRoles.includes(role)) {
     console.warn('[🚫] Access Denied — Redirecting');
