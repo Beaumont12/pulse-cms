@@ -63,7 +63,6 @@ export default function PersistentLayout() {
               md: expanded ? `${SIDEBAR_WIDTH_EXPANDED}px` : `${SIDEBAR_WIDTH_COLLAPSED}px`,
             },
             transition: 'margin 0.3s ease-in-out',
-            p: { xs: 2, sm: 3, md: 4 },
             backgroundColor: '#F9F9FC',
             width: '100%',
             minHeight: 'calc(100vh - 64px)',
