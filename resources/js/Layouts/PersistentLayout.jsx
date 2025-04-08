@@ -35,12 +35,21 @@ export default function PersistentLayout() {
             <IconButton onClick={() => setExpanded(prev => !prev)} sx={{ color: '#450001' }}>
               <MenuIcon />
             </IconButton>
-            <Box component="img" src={logo} alt="Pulse Logo" sx={{ height: 40 }} />
-            {!isMobile && (
-              <Typography variant="h6" fontWeight="bold" ml={1}>
-                Pulse
-              </Typography>
-            )}
+            <Box component="img" src={logo} alt="Pulse Logo" sx={{ height: 40, cursor: 'default' }} />
+              {!isMobile && (
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  ml={1}
+                  sx={{
+                    cursor: 'default',
+                    pointerEvents: 'none', // ensures no cursor on hover
+                    userSelect: 'none',    // optional: prevents text selection
+                  }}
+                >
+                  Pulse
+                </Typography>
+              )}
           </Box>
         </Toolbar>
       </AppBar>
