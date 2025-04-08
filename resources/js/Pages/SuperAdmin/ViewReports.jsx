@@ -15,7 +15,7 @@ export default function ViewReports() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       {/* Title and Subtitle */}
       <Box sx={{ mb: 2 }}>
         <Typography variant="h4" fontWeight="bold" color="#450001">

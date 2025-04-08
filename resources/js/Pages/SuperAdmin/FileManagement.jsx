@@ -15,8 +15,8 @@ export default function FileManagement() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      {/* Title and Subtitle */}
+    <Box sx={{ width: '100%', height: '100%' }}>
+      {/* Title */}
       <Box sx={{ mb: 2 }}>
         <Typography variant="h4" fontWeight="bold" color="#450001">
           Content and File Management
@@ -27,15 +27,21 @@ export default function FileManagement() {
       </Box>
 
       {/* Breadcrumbs */}
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        mb: 3,
-        mt: { xs: 1, sm: 0 },
-        textAlign: 'center',
-      }}>
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: 3,
+          mt: { xs: 1, sm: 0 },
+          textAlign: 'center',
+        }}
+      >
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+          sx={{ mb: 3 }}
+        >
           <Link underline="hover" color="inherit" href="#">
             Content and File Management
           </Link>
@@ -43,80 +49,96 @@ export default function FileManagement() {
         </Breadcrumbs>
       </Box>
 
-      {/* Sidebar Tabs */}
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        orientation="vertical"
-        variant="scrollable"
-        scrollButtons="auto"
-        sx={{
-          mb: 3,
-          backgroundColor: '#fff',
-          borderRadius: 2,
-          width: 240,
-          float: 'left',
-          mr: 4,
-          height: '100%',
-          '& .MuiTab-root': {
-            justifyContent: 'flex-start',
-            gap: 1.5,
-            px: 2,
-            alignItems: 'center',
-            color: '#450001',
-            fontWeight: 500,
-            textTransform: 'none',
-            fontSize: '0.95rem',
-          },
-          '& .Mui-selected': {
-            bgcolor: '#F5F5F5',
-            color: '#8E0000',
-          },
-          '& .MuiTab-wrapper': {
-            flexDirection: 'row',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            textAlign: 'left',
-          },
-        }}
-      >
-        <Tab icon={<FileDownloadIcon fontSize="small" />} iconPosition="start" label="Downloadable Reports" />
-        <Tab icon={<CloudUploadIcon fontSize="small" />} iconPosition="start" label="Upload Learning Materials" />
-      </Tabs>
+      {/* Main Layout */}
+      <Box sx={{ display: 'flex', height: '100%' }}>
+        {/* Sidebar Tabs */}
+        <Tabs
+          value={tabValue}
+          onChange={handleTabChange}
+          orientation="vertical"
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{
+            backgroundColor: '#fff',
+            borderRadius: 2,
+            width: 240,
+            mr: 4,
+            height: '100%',
+            boxShadow: '0 0 6px rgba(0,0,0,0.05)',
+            '& .MuiTab-root': {
+              justifyContent: 'flex-start',
+              gap: 1.5,
+              px: 2,
+              alignItems: 'center',
+              color: '#450001',
+              fontWeight: 500,
+              textTransform: 'none',
+              fontSize: '0.95rem',
+            },
+            '& .Mui-selected': {
+              bgcolor: '#F5F5F5',
+              color: '#8E0000',
+            },
+            '& .MuiTab-wrapper': {
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              textAlign: 'left',
+            },
+          }}
+        >
+          <Tab icon={<FileDownloadIcon fontSize="small" />} iconPosition="start" label="Downloadable Reports" />
+          <Tab icon={<CloudUploadIcon fontSize="small" />} iconPosition="start" label="Upload Learning Materials" />
+        </Tabs>
 
-      {/* Tab Content */}
-      <Box sx={{ ml: 25 }}>
-        {tabValue === 0 && (
-          <Grid container spacing={2}>
-            {['Report 1', 'Report 2'].map((report, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4}>
-                <Paper elevation={2} sx={{ px: 3, py: 2, borderRadius: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography fontWeight="bold" fontSize="0.95rem" color="#450001">{report}</Typography>
-                  <IconButton color="primary">
-                    <FileDownloadIcon />
-                  </IconButton>
+        {/* Tab Content */}
+        <Box sx={{ flexGrow: 1 }}>
+          {tabValue === 0 && (
+            <Grid container spacing={2}>
+              {['Report 1', 'Report 2'].map((report, index) => (
+                <Grid item key={index} xs={12} sm={6} md={4}>
+                  <Paper
+                    elevation={2}
+                    sx={{
+                      px: 3,
+                      py: 2,
+                      borderRadius: 2,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Typography fontWeight="bold" fontSize="0.95rem" color="#450001">
+                      {report}
+                    </Typography>
+                    <IconButton color="primary">
+                      <FileDownloadIcon />
+                    </IconButton>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {tabValue === 1 && (
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={8}>
+                <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
+                  <Typography fontWeight="bold" color="#450001" mb={1.5}>
+                    Upload File
+                  </Typography>
+                  <Typography color="text.secondary" fontSize="0.9rem" mb={2}>
+                    Upload learning materials such as handouts, syllabi, or certificates.
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">[Upload UI Placeholder]</Typography>
+                  <Typography variant="body2" color="text.secondary" mt={2}>
+                    Add category filters, tags, and expiration controls if needed.
+                  </Typography>
                 </Paper>
               </Grid>
-            ))}
-          </Grid>
-        )}
-
-        {tabValue === 1 && (
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
-              <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-                <Typography fontWeight="bold" color="#450001" mb={1.5}>Upload File</Typography>
-                <Typography color="text.secondary" fontSize="0.9rem" mb={2}>
-                  Upload learning materials such as handouts, syllabi, or certificates.
-                </Typography>
-                <Typography variant="body2" color="text.secondary">[Upload UI Placeholder]</Typography>
-                <Typography variant="body2" color="text.secondary" mt={2}>
-                  Add category filters, tags, and expiration controls if needed.
-                </Typography>
-              </Paper>
             </Grid>
-          </Grid>
-        )}
+          )}
+        </Box>
       </Box>
     </Box>
   );
