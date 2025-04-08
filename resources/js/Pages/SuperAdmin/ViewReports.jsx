@@ -15,39 +15,17 @@ export default function ViewReports() {
   };
 
   return (
-    <Box sx={{ width: '100%', height: '100%' }}>
-      {/* Title and Subtitle */}
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="h4" fontWeight="bold" color="#450001">
-          Report and Analytics
-        </Typography>
-        <Typography variant="subtitle2" color="text.secondary">
-          Visualize progress and assessment performance
-        </Typography>
-      </Box>
-
-      {/* Breadcrumbs */}
+    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
+      
+      {/* Sidebar Nested Tabs */}
       <Box sx={{
+        width: 280,
+        backgroundColor: '#fff',
+        borderRight: '1px solid #eee',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        mb: 3,
-        mt: { xs: 1, sm: 0 },
-        textAlign: 'center',
+        flexDirection: 'column',
+        py: 2,
       }}>
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3 }}>
-          <Link underline="hover" color="inherit" href="#">
-            Report and Analytics
-          </Link>
-          <Typography color="text.primary">
-            {tabLabels[tabValue]}
-          </Typography>
-        </Breadcrumbs>
-      </Box>
-
-      {/* Sidebar Tabs + Content */}
-      <Box sx={{ display: 'flex', gap: 4, height: '100%' }}>
-        {/* Sidebar Tabs */}
         <Tabs
           value={tabValue}
           onChange={handleTabChange}
@@ -55,21 +33,17 @@ export default function ViewReports() {
           variant="scrollable"
           scrollButtons="auto"
           sx={{
-            mb: 3,
-            backgroundColor: '#fff',
-            borderRadius: 2,
-            width: 240,
-            height: '100%',
-            mr: 4,
             '& .MuiTab-root': {
               justifyContent: 'flex-start',
               gap: 1.5,
               px: 2,
+              py: 1.2,
               alignItems: 'center',
               color: '#450001',
               fontWeight: 500,
               textTransform: 'none',
               fontSize: '0.95rem',
+              borderRadius: 2,
             },
             '& .Mui-selected': {
               bgcolor: '#F5F5F5',
@@ -77,7 +51,6 @@ export default function ViewReports() {
             },
             '& .MuiTab-wrapper': {
               flexDirection: 'row',
-              alignItems: 'flex-start',
               justifyContent: 'flex-start',
               textAlign: 'left',
             },
@@ -86,45 +59,64 @@ export default function ViewReports() {
           <Tab icon={<BarChartIcon fontSize="small" />} iconPosition="start" label="User Progress Reports" />
           <Tab icon={<AssessmentIcon fontSize="small" />} iconPosition="start" label="Quiz & Course Analytics" />
         </Tabs>
+      </Box>
 
-        {/* Tab Content */}
-        <Box sx={{ flexGrow: 1 }}>
-          {tabValue === 0 && (
-            <>
-              <Paper elevation={2} sx={{ p: 2, borderRadius: 2, mb: 2 }}>
-                <Typography fontWeight="bold" color="#450001">Learning Assessment</Typography>
-                <Typography variant="body2" color="text.secondary">[Line Chart Placeholder]</Typography>
-              </Paper>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 180 }}>
-                  <Typography fontWeight="bold" color="#450001" fontSize="0.95rem">
-                    Participation Rate
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">[Gauge Placeholder]</Typography>
-                </Paper>
-                <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 180 }}>
-                  <Typography fontWeight="bold" color="#450001" fontSize="0.95rem">
-                    Completion Rate
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">[Gauge Placeholder]</Typography>
-                </Paper>
-              </Box>
-            </>
-          )}
-
-          {tabValue === 1 && (
-            <>
-              <Paper elevation={2} sx={{ p: 2, borderRadius: 2, mb: 2 }}>
-                <Typography fontWeight="bold" color="#450001">Quiz Assessment Rate</Typography>
-                <Typography variant="body2" color="text.secondary">[Line Chart Placeholder]</Typography>
-              </Paper>
-              <Paper elevation={2} sx={{ p: 2, borderRadius: 2 }}>
-                <Typography fontWeight="bold" color="#450001">Course Assessment Rate</Typography>
-                <Typography variant="body2" color="text.secondary">[Line Chart Placeholder]</Typography>
-              </Paper>
-            </>
-          )}
+      {/* Main Content Area */}
+      <Box sx={{ flexGrow: 1, p: 4 }}>
+        {/* Title and Subtitle */}
+        <Box sx={{ mb: 5 }}>
+          <Typography variant="h4" fontWeight="bold" color="#450001">
+            Report and Analytics
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            Visualize progress and assessment performance
+          </Typography>
         </Box>
+
+        {/* Breadcrumbs */}
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 4 }}>
+          <Link underline="hover" color="inherit" href="#">
+            Report and Analytics
+          </Link>
+          <Typography color="text.primary">{tabLabels[tabValue]}</Typography>
+        </Breadcrumbs>
+
+        {/* Content based on selected tab */}
+        {tabValue === 0 && (
+          <>
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, mb: 2 }}>
+              <Typography fontWeight="bold" color="#450001">Learning Assessment</Typography>
+              <Typography variant="body2" color="text.secondary">[Line Chart Placeholder]</Typography>
+            </Paper>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 180 }}>
+                <Typography fontWeight="bold" color="#450001" fontSize="0.95rem">
+                  Participation Rate
+                </Typography>
+                <Typography variant="body2" color="text.secondary">[Gauge Placeholder]</Typography>
+              </Paper>
+              <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: 180 }}>
+                <Typography fontWeight="bold" color="#450001" fontSize="0.95rem">
+                  Completion Rate
+                </Typography>
+                <Typography variant="body2" color="text.secondary">[Gauge Placeholder]</Typography>
+              </Paper>
+            </Box>
+          </>
+        )}
+
+        {tabValue === 1 && (
+          <>
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2, mb: 2 }}>
+              <Typography fontWeight="bold" color="#450001">Quiz Assessment Rate</Typography>
+              <Typography variant="body2" color="text.secondary">[Line Chart Placeholder]</Typography>
+            </Paper>
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2 }}>
+              <Typography fontWeight="bold" color="#450001">Course Assessment Rate</Typography>
+              <Typography variant="body2" color="text.secondary">[Line Chart Placeholder]</Typography>
+            </Paper>
+          </>
+        )}
       </Box>
     </Box>
   );

@@ -10,7 +10,7 @@ export default function SuperAdminDashboard() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', p: 4 }}>
       {/* Page Title */}
       <Box sx={{ mb: 2 }}>
         <Typography variant="h4" fontWeight="bold" color="#450001">
