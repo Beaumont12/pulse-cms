@@ -7,7 +7,7 @@ import TeacherDashboard from './Pages/Teacher/Dashboard';
 import ProtectedRoute from './Components/ProtectedRoute';
 import AddUser from './Pages/SuperAdmin/AddUser';
 import ManageUsers from './Pages/SuperAdmin/ManageUsers';
-import ManageCourses from './Pages/SuperAdmin/ManageCourses';
+import ManageCourses from './Pages/Admin/ManageCourses';
 import ViewReports from './Pages/SuperAdmin/ViewReports';
 import FileManagement from './Pages/SuperAdmin/FileManagement';
 import LearningManagement from './Pages/SuperAdmin/LearningManagement';

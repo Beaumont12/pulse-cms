@@ -94,11 +94,17 @@ export default function ManageUsers() {
               bgcolor: '#F5F5F5',
               color: '#8E0000',
             },
+            '& .MuiTab-wrapper': {
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              textAlign: 'left',
+            },
           }}
         >
           <Tab icon={<PersonIcon fontSize="small" />} iconPosition="start" label="Manage User" />
           <Tab icon={<PersonAddIcon fontSize="small" />} iconPosition="start" label="Add User" />
-          <Tab icon={<LockResetIcon fontSize="small" />} iconPosition="start" label="Password Resets & Account Recovery" />
+          <Tab icon={<LockResetIcon fontSize="small" />} iconPosition="start" label="Account Recovery" />
         </Tabs>
 
         {/* Content Based on Tab Selection */}

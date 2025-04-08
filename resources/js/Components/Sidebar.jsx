@@ -28,7 +28,7 @@ import logo from '../assets/logo.svg';
 const baseItems = (role) => [
   { text: 'Dashboard', icon: <HomeIcon fontSize="small" />, path: `/${role}/dashboard` },
   { text: 'Users', icon: <PersonIcon fontSize="small" />, path: `/${role}/manage-users` },
-  { text: 'Courses', icon: <ContentPasteIcon fontSize="small" />, path: `/${role}/manage-courses` },
+  { text: 'Learning Management', icon: <ContentPasteIcon fontSize="small" />, path: `/${role}/learning-management` },
   { text: 'Reports', icon: <InsertChartIcon fontSize="small" />, path: `/${role}/view-reports` },
   { text: 'Files', icon: <FolderIcon fontSize="small" />, path: `/${role}/files` },
   { text: 'Notifications', icon: <NotificationsIcon fontSize="small" />, path: `/${role}/notifications`, hasBadge: true },
