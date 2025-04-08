@@ -66,11 +66,11 @@ export default function ManageUsers() {
       {/* Main Content Area */}
       <Box sx={{ flexGrow: 1, p: 4 }}>
         {/* Title + Subtitle */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 5 }}>
           <Typography variant="h4" fontWeight="bold" color="#450001">
             User Management
           </Typography>
-          <Typography variant="subtitle2" color="text.secondary">
+          <Typography variant="subtitle1" color="text.secondary">
             Manage users, roles and access
           </Typography>
         </Box>
@@ -79,7 +79,7 @@ export default function ManageUsers() {
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}
           aria-label="breadcrumb"
-          sx={{ mb: 3, fontSize: '0.95rem', }}
+          sx={{ mb: 4 }}
         >
           <Link underline="hover" color="inherit" href="#">
             User Management
