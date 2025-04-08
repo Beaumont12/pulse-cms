@@ -1,5 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { Routes, Route } from 'react-router-dom';
 import Login from './Pages/Auth/Login';
 import GameRedirect from './Pages/Student/GameRedirect';
 import AdminDashboard from './Pages/Admin/Dashboard';
@@ -14,34 +13,27 @@ import LearningManagement from './Pages/SuperAdmin/LearningManagement';
 import Notifications from './Pages/SuperAdmin/Notifications';
 import Settings from './Pages/SuperAdmin/Settings';
 import Help from './Pages/SuperAdmin/Help';
-import PageWrapper from './Components/PageWrapper';
 import SuperAdminDashboard from './Pages/SuperAdmin/Dashboard';
 
-export default function AppRoutes() {
-  const location = useLocation();
-
+export default function AppRoutes({ location }) {
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Login />} />
-        <Route path="/student/game" element={<GameRedirect />} />
+    <Routes location={location}>
 
-        {/* SUPER ADMIN ROUTES */}
-        <Route path="/superadmin/dashboard" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminDashboard /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/add-user" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AddUser /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/manage-users" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageUsers /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageCourses /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/view-reports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ViewReports /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><FileManagement /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/learning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><LearningManagement /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/notifications" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Notifications /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/settings" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
-        <Route path="/superadmin/help" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Help /></PageWrapper></ProtectedRoute>} />
+      {/* SUPER ADMIN ROUTES */}
+      <Route path="/superadmin/dashboard" element={<ProtectedRoute allowedRoles={['super_admin']}><SuperAdminDashboard /></ProtectedRoute>} />
+      <Route path="/superadmin/add-user" element={<ProtectedRoute allowedRoles={['super_admin']}><AddUser /></ProtectedRoute>} />
+      <Route path="/superadmin/manage-users" element={<ProtectedRoute allowedRoles={['super_admin']}><ManageUsers /></ProtectedRoute>} />
+      <Route path="/superadmin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><ManageCourses /></ProtectedRoute>} />
+      <Route path="/superadmin/view-reports" element={<ProtectedRoute allowedRoles={['super_admin']}><ViewReports /></ProtectedRoute>} />
+      <Route path="/superadmin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><FileManagement /></ProtectedRoute>} />
+      <Route path="/superadmin/learning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><LearningManagement /></ProtectedRoute>} />
+      <Route path="/superadmin/notifications" element={<ProtectedRoute allowedRoles={['super_admin']}><Notifications /></ProtectedRoute>} />
+      <Route path="/superadmin/settings" element={<ProtectedRoute allowedRoles={['super_admin']}><Settings /></ProtectedRoute>} />
+      <Route path="/superadmin/help" element={<ProtectedRoute allowedRoles={['super_admin']}><Help /></ProtectedRoute>} />
 
-        {/* ADMIN & TEACHER */}
-        <Route path="/admin/dashboard" element={<ProtectedRoute allowedRoles={['admin']}><PageWrapper><AdminDashboard /></PageWrapper></ProtectedRoute>} />
-        <Route path="/teacher/dashboard" element={<ProtectedRoute allowedRoles={['teacher']}><PageWrapper><TeacherDashboard /></PageWrapper></ProtectedRoute>} />
-      </Routes>
-    </AnimatePresence>
+      {/* ADMIN & TEACHER */}
+      <Route path="/admin/dashboard" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
+      <Route path="/teacher/dashboard" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherDashboard /></ProtectedRoute>} />
+    </Routes>
   );
 }

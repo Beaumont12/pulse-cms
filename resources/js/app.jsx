@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import AppRoutes from './routes';
-import { BrowserRouter as Router } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route // ✅ this was missing
+} from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import LoadingScreen from './components/LoadingScreen';
 import { ErrorBoundary } from 'react-error-boundary';
+import Login from './Pages/Auth/Login'; // ✅ also make sure this is imported
+import GameRedirect from './Pages/Student/GameRedirect';
+import PersistentLayout from './Layouts/PersistentLayout';
 
 const theme = createTheme({
   palette: {
@@ -17,9 +23,6 @@ const theme = createTheme({
   },
 });
 
-const root = ReactDOM.createRoot(document.getElementById('app'));
-
-// ✅ fallback UI if a component crashes
 function ErrorFallback({ error }) {
   return (
     <div style={{ padding: '2rem', color: 'red' }}>
@@ -40,7 +43,11 @@ function App() {
       ) : (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Router>
-            <AppRoutes />
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/student/game" element={<GameRedirect />} />
+              <Route path="/*" element={<PersistentLayout />} />
+            </Routes>
           </Router>
         </ErrorBoundary>
       )}
@@ -48,4 +55,5 @@ function App() {
   );
 }
 
+const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(<App />);
