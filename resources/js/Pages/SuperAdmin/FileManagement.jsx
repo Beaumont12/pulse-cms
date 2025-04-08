@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Tabs, Tab, Paper, Breadcrumbs, Link, IconButton
+  Box, Typography, Paper, Grid, Tabs, Tab, Breadcrumbs, Link, IconButton
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -9,14 +9,16 @@ import Sidebar from '../../Components/Sidebar';
 
 export default function FileManagement() {
   const [expanded, setExpanded] = useState(true);
+  const [tabValue, setTabValue] = useState(0);
+
   const SIDEBAR_WIDTH_EXPANDED = 260;
   const SIDEBAR_WIDTH_COLLAPSED = 80;
-  const [tabValue, setTabValue] = useState(0);
-  const tabLabels = ['Downloadable Reports', 'Upload Learning Materials'];
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
+
+  const tabLabels = ['Downloadable Reports', 'Upload Learning Materials'];
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
@@ -31,7 +33,7 @@ export default function FileManagement() {
           backgroundColor: '#F9F9FC',
         }}
       >
-        {/* Page Title and Subtitle */}
+        {/* Title and Subtitle */}
         <Box sx={{ mb: 2 }}>
           <Typography variant="h4" fontWeight="bold" color="#450001">
             Content and File Management
@@ -42,18 +44,23 @@ export default function FileManagement() {
         </Box>
 
         {/* Breadcrumbs */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          mb: 3,
+          mt: { xs: 1, sm: 0 },
+          textAlign: 'center',
+        }}>
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3 }}>
             <Link underline="hover" color="inherit" href="#">
               Content and File Management
             </Link>
-            <Typography color="text.primary">
-              {tabLabels[tabValue]}
-            </Typography>
+            <Typography color="text.primary">{tabLabels[tabValue]}</Typography>
           </Breadcrumbs>
         </Box>
 
-        {/* Submenu as Tabs */}
+        {/* Sidebar Tabs */}
         <Tabs
           value={tabValue}
           onChange={handleTabChange}
@@ -77,9 +84,6 @@ export default function FileManagement() {
               fontWeight: 500,
               textTransform: 'none',
               fontSize: '0.95rem',
-              minHeight: 60,
-              lineHeight: 1.3,
-              whiteSpace: 'normal',
             },
             '& .Mui-selected': {
               bgcolor: '#F5F5F5',
@@ -97,31 +101,38 @@ export default function FileManagement() {
           <Tab icon={<CloudUploadIcon fontSize="small" />} iconPosition="start" label="Upload Learning Materials" />
         </Tabs>
 
-        {/* Content Display */}
+        {/* Content */}
         <Box sx={{ ml: 25 }}>
           {tabValue === 0 && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Grid container spacing={2}>
               {['Report 1', 'Report 2'].map((report, index) => (
-                <Paper key={index} elevation={1} sx={{ px: 2, py: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography fontWeight="bold" fontSize="0.95rem" color="#450001">{report}</Typography>
-                  <IconButton color="primary">
-                    <FileDownloadIcon />
-                  </IconButton>
-                </Paper>
+                <Grid item key={index} xs={12} sm={6} md={4}>
+                  <Paper elevation={2} sx={{ px: 3, py: 2, borderRadius: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography fontWeight="bold" fontSize="0.95rem" color="#450001">{report}</Typography>
+                    <IconButton color="primary">
+                      <FileDownloadIcon />
+                    </IconButton>
+                  </Paper>
+                </Grid>
               ))}
-            </Box>
+            </Grid>
           )}
 
           {tabValue === 1 && (
-            <Paper elevation={1} sx={{ p: 3 }}>
-              <Typography fontWeight="bold" color="#450001" mb={1.5}>Upload File</Typography>
-              <Typography color="text.secondary" fontSize="0.9rem" mb={2}>
-                Upload learning materials such as handouts, syllabi, or certificates.
-              </Typography>
-              {/* Future features here */}
-              <Typography variant="body2" color="text.secondary">[Upload UI Placeholder]</Typography>
-              <Typography variant="body2" color="text.secondary" mt={2}>Add category filters, tags, and expiration controls if needed.</Typography>
-            </Paper>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={8}>
+                <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
+                  <Typography fontWeight="bold" color="#450001" mb={1.5}>Upload File</Typography>
+                  <Typography color="text.secondary" fontSize="0.9rem" mb={2}>
+                    Upload learning materials such as handouts, syllabi, or certificates.
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">[Upload UI Placeholder]</Typography>
+                  <Typography variant="body2" color="text.secondary" mt={2}>
+                    Add category filters, tags, and expiration controls if needed.
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
           )}
         </Box>
       </Box>

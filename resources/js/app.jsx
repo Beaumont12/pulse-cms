@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import LoadingScreen from './components/LoadingScreen';
-import { ErrorBoundary } from 'react-error-boundary'; // ✅
+import { ErrorBoundary } from 'react-error-boundary';
 
 const theme = createTheme({
   palette: {
