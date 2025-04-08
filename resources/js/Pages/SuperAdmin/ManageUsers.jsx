@@ -16,17 +16,28 @@ export default function ManageUsers() {
   };
 
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}> {/* Full height excluding AppBar */}
+    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
       
-      {/* Sidebar Nested Tabs */}
+      {/* Sidebar Nested Tabs with Title + Subtitle */}
       <Box sx={{
         width: 280,
         backgroundColor: '#fff',
         borderRight: '1px solid #eee',
         display: 'flex',
         flexDirection: 'column',
-        py: 2,
+        py: 1,
       }}>
+        {/* Title + Subtitle inside sidebar */}
+        <Box sx={{ mb: 2, mt: 2, p: 2 }}>
+          <Typography variant="subtitle1" fontWeight="bold" color="#450001">
+            User Management
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            Manage users, roles and access
+          </Typography>
+        </Box>
+
+        {/* Vertical Tabs */}
         <Tabs
           value={tabValue}
           onChange={handleTabChange}
@@ -65,16 +76,6 @@ export default function ManageUsers() {
 
       {/* Main Content Area */}
       <Box sx={{ flexGrow: 1, p: 4 }}>
-        {/* Title + Subtitle */}
-        <Box sx={{ mb: 5 }}>
-          <Typography variant="h4" fontWeight="bold" color="#450001">
-            User Management
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            Manage users, roles and access
-          </Typography>
-        </Box>
-
         {/* Breadcrumbs */}
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}
@@ -87,10 +88,9 @@ export default function ManageUsers() {
           <Typography color="text.primary">{tabLabels[tabValue]}</Typography>
         </Breadcrumbs>
 
-        {/* Content based on selected tab */}
+        {/* Tab Panel Content */}
         {tabValue === 0 && (
           <Grid container spacing={2}>
-            {/* Example Card Placeholder */}
             <Grid item xs={12} sm={6} md={4}>
               <Paper sx={{ p: 3, borderRadius: 2 }}>User Card Placeholder</Paper>
             </Grid>
