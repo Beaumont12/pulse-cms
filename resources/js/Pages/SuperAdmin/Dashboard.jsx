@@ -42,6 +42,7 @@ export default function SuperAdminDashboard() {
             fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.95rem' },
             wordBreak: 'break-word',
             px: 1,
+            mb: 3,
           }}
         >
           <Link underline="hover" color="inherit" href="#">Home</Link>

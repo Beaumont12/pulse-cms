@@ -18,7 +18,7 @@ export default function ManageUsers() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', height: '100%' }}>
       {/* Title + Subtitle */}
       <Box sx={{ mb: 2 }}>
         <Typography variant="h4" fontWeight="bold" color="#450001">
@@ -50,7 +50,7 @@ export default function ManageUsers() {
         </Breadcrumbs>
       </Box>
 
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', height: '100%' }}>
         {/* Sidebar Tabs */}
         <Tabs
           value={tabValue}
