@@ -166,45 +166,97 @@ export default function Sidebar({ expanded }) {
         </>
       )}
 
-      {role !== 'teacher' && (
-        <List sx={{ gap: 0.5 }}>
-          {baseItems(role).map((item, index) => (
-            <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
-              <ListItemButton
-                onClick={() => navigate(item.path)}
-                selected={location.pathname === item.path}
-                sx={{
-                  justifyContent: expanded ? 'flex-start' : 'center',
-                  px: expanded ? 2 : 0,
-                  py: 0.8,
-                  borderRadius: 2,
-                  alignItems: 'center',
-                  bgcolor: location.pathname === item.path ? '#F5F5F5' : 'transparent',
-                  color: location.pathname === item.path ? '#8E0000' : '#450001',
-                  '&:hover': { bgcolor: '#F5F5F5' },
-                  gap: expanded ? 1.5 : 0,
-                  transition: 'all 0.3s ease-in-out',
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    color: 'inherit',
-                    justifyContent: 'center',
-                    display: 'flex',
-                    alignItems: 'center',
-                    mr: expanded ? 2 : 0,
-                    transition: 'margin 0.3s ease',
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                {expanded && <ListItemText primary={item.text} />}
-              </ListItemButton>
-            </Tooltip>
-          ))}
-        </List>
-      )}
+      {role !== 'teacher' && (() => {
+        const topItems = baseItems(role).slice(0, 5); // Dashboard to Files
+        const bottomItems = baseItems(role).slice(5); // Notifications to Help
+
+        return (
+          <>
+            {/* TOP ICONS */}
+            <List sx={{ gap: 0.5 }}>
+              {topItems.map((item, index) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
+                    <ListItemButton
+                      onClick={() => navigate(item.path)}
+                      selected={isActive}
+                      sx={{
+                        justifyContent: expanded ? 'flex-start' : 'center',
+                        px: expanded ? 2 : 0,
+                        py: 0.8,
+                        borderRadius: 2,
+                        alignItems: 'center',
+                        bgcolor: isActive ? '#F5F5F5' : 'transparent',
+                        color: isActive ? '#8E0000' : '#450001',
+                        '&:hover': { bgcolor: '#F5F5F5' },
+                        gap: expanded ? 1.5 : 0,
+                        transition: 'all 0.3s ease-in-out',
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          color: 'inherit',
+                          justifyContent: 'center',
+                          display: 'flex',
+                          alignItems: 'center',
+                          mr: expanded ? 2 : 0,
+                        }}
+                      >
+                        {item.icon}
+                      </ListItemIcon>
+                      {expanded && <ListItemText primary={item.text} />}
+                    </ListItemButton>
+                  </Tooltip>
+                );
+              })}
+            </List>
+
+            {/* BOTTOM ICONS */}
+            <Box sx={{ flexGrow: 1 }} /> {/* pushes the bottom items down */}
+            <List sx={{ gap: 0.5, mb: 2 }}>
+              {bottomItems.map((item, index) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
+                    <ListItemButton
+                      onClick={() => navigate(item.path)}
+                      selected={isActive}
+                      sx={{
+                        justifyContent: expanded ? 'flex-start' : 'center',
+                        px: expanded ? 2 : 0,
+                        py: 0.8,
+                        borderRadius: 2,
+                        alignItems: 'center',
+                        bgcolor: isActive ? '#F5F5F5' : 'transparent',
+                        color: isActive ? '#8E0000' : '#450001',
+                        '&:hover': { bgcolor: '#F5F5F5' },
+                        gap: expanded ? 1.5 : 0,
+                        transition: 'all 0.3s ease-in-out',
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          color: 'inherit',
+                          justifyContent: 'center',
+                          display: 'flex',
+                          alignItems: 'center',
+                          mr: expanded ? 2 : 0,
+                        }}
+                      >
+                        {item.icon}
+                      </ListItemIcon>
+                      {expanded && <ListItemText primary={item.text} />}
+                    </ListItemButton>
+                  </Tooltip>
+                );
+              })}
+            </List>
+          </>
+        );
+      })()}
     </Box>
   );
 }
