@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   List, ListItemButton, ListItemIcon, ListItemText,
-  Tooltip, Badge, Box, Typography, Button
+  Tooltip, Box, Typography
 } from '@mui/material';
 import {
   HomeOutlined as HomeIcon,
@@ -12,18 +12,18 @@ import {
   NotificationsNone as NotificationsIcon,
   SettingsOutlined as SettingsIcon,
   InfoOutlined as InfoIcon,
-  QuizOutlined as QuizIcon,
+  NoteAltOutlined as QuizIcon,
   LeaderboardOutlined as LeaderboardIcon,
   FeedbackOutlined as FeedbackIcon,
   HelpOutline as HelpIcon,
   LibraryBooksOutlined as LibraryBooksIcon,
   AssessmentOutlined as AssessmentIcon,
   PlayArrowOutlined as PlayIcon,
+  ClassOutlined as ClassIcon,
 } from '@mui/icons-material';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
-// Define the base items for the sidebar, which are common for all roles.
 const baseItems = (role) => [
   { text: 'Dashboard', icon: <HomeIcon />, path: `/${role}/dashboard` },
   { text: 'Users', icon: <PersonIcon />, path: `/${role}/manage-users` },
@@ -35,14 +35,14 @@ const baseItems = (role) => [
   { text: 'Help', icon: <InfoIcon />, path: `/${role}/help` },
 ];
 
-// Teacher-specific items with section grouping
 const teacherItems = [
   {
     label: 'Manage',
     items: [
+      { text: 'Dashboard', icon: <HomeIcon />, path: '/teacher/dashboard' },
       { text: 'Quizzes', icon: <QuizIcon />, path: '/teacher/quizzes' },
       { text: 'Question Bank', icon: <LibraryBooksIcon />, path: '/teacher/question-bank' },
-      { text: 'Courses', icon: <LibraryBooksIcon />, path: '/teacher/courses' },
+      { text: 'Courses', icon: <ClassIcon />, path: '/teacher/courses' },
       { text: 'Avatars', icon: <PersonIcon />, path: '/teacher/avatars' },
     ],
   },
@@ -67,11 +67,8 @@ const teacherItems = [
 export default function Sidebar({ expanded }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const role = localStorage.getItem("userRole") || 'super_admin';  // Default to super_admin if not found
-
-  // Determine the menu items based on the role
+  const role = localStorage.getItem("userRole") || 'super_admin';
   const items = role === 'teacher' ? teacherItems : baseItems(role);
-
   const SIDEBAR_WIDTH = expanded ? 300 : 80;
 
   return (
@@ -83,94 +80,92 @@ export default function Sidebar({ expanded }) {
         padding: expanded ? '24px 16px' : '24px 8px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start', // Change to flex-start to reduce spacing
+        justifyContent: 'flex-start',
         position: 'fixed',
         left: 0,
-        top: 64, // Make sure this matches your AppBar height
+        top: 64,
         zIndex: 1200,
         overflowX: 'hidden',
         transition: 'width 0.3s ease',
         borderRight: '1px solid #eee',
       }}
     >
-      {/* Render Teacher-specific Groups (Manage, Play, Product) */}
-      {role === 'teacher' && expanded && (
+      {role === 'teacher' && (
         <>
           {teacherItems.map((group, index) => (
-            <Box key={index} sx={{ mb: 1 }}> {/* Reduced margin between sections */}
-              {/* Section Title */}
-              <Typography
-                variant="h6"
-                sx={{
-                  color: '#450001',
-                  fontWeight: 600,
-                  px: 2,
-                  mb: 0.5, // Reduced margin
-                  mt: 2,
-                  fontSize: '0.9rem', // Adjust font size to make it more compact
-                }}
-              >
-                {group.label}
-              </Typography>
-
-              {/* Render Teacher-specific Items */}
-              {group.items.map((item, itemIndex) => (
-                item.isButton ? (
-                  // For 'New Quiz' button
-                  <ListItemButton
-                    key={itemIndex}
-                    onClick={() => navigate(item.path)}
+            <React.Fragment key={index}>
+              <Box sx={{ mb: 1 }}>
+                {expanded && (
+                  <Typography
+                    variant="h6"
                     sx={{
-                      justifyContent: 'flex-start',
+                      color: '#450001',
+                      fontWeight: 600,
                       px: 2,
-                      py: 0.8, // Reduced padding
-                      borderRadius: 2,
-                      alignItems: 'center',
-                      bgcolor: '#8E0000',
-                      color: '#FAFAFF',
-                      '&:hover': { bgcolor: '#660200' },
-                      gap: 1.5,
-                      transition: 'all 0.3s ease-in-out',
+                      mb: 0.5,
+                      mt: 2,
+                      fontSize: '0.9rem',
                     }}
                   >
-                    <ListItemIcon sx={{ minWidth: 0, color: 'inherit', justifyContent: 'center' }}>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.text} />
-                  </ListItemButton>
-                ) : (
-                  // Normal items
+                    {group.label}
+                  </Typography>
+                )}
+
+                {group.items.map((item, itemIndex) => (
                   <Tooltip key={itemIndex} title={!expanded ? item.text : ''} placement="right" arrow>
                     <ListItemButton
                       onClick={() => navigate(item.path)}
                       selected={location.pathname === item.path}
                       sx={{
                         justifyContent: expanded ? 'flex-start' : 'center',
-                        px: 2,
-                        py: 0.8, // Reduced padding
+                        px: expanded ? 2 : 0,
+                        py: 0.8,
                         borderRadius: 2,
                         alignItems: 'center',
                         bgcolor: location.pathname === item.path ? '#F5F5F5' : 'transparent',
                         color: location.pathname === item.path ? '#8E0000' : '#450001',
                         '&:hover': { bgcolor: '#F5F5F5' },
-                        gap: 1.5,
+                        gap: expanded ? 1.5 : 0,
                         transition: 'all 0.3s ease-in-out',
                       }}
                     >
-                      <ListItemIcon sx={{ minWidth: 0, color: 'inherit', justifyContent: 'center' }}>
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          color: 'inherit',
+                          justifyContent: 'center',
+                          display: 'flex',
+                          alignItems: 'center',
+                          mr: expanded ? 2 : 0,
+                          transition: 'margin 0.3s ease',
+                        }}
+                      >
                         {item.icon}
                       </ListItemIcon>
                       {expanded && <ListItemText primary={item.text} />}
                     </ListItemButton>
                   </Tooltip>
-                )
-              ))}
-            </Box>
+                ))}
+              </Box>
+
+              {/* Divider shown only in collapsed view, except after the last group */}
+              {!expanded && index < teacherItems.length - 1 && (
+                <Box
+                  sx={{
+                    height: '1px',
+                    backgroundColor: '#ccc',
+                    opacity: 0.7,
+                    mx: 2,
+                    my: 1,
+                  }}
+                />
+              )}
+            </React.Fragment>
           ))}
+
         </>
       )}
 
-      {/* TOP ITEMS - Common for all roles */}
       {role !== 'teacher' && (
         <List sx={{ gap: 0.5 }}>
           {baseItems(role).map((item, index) => (
@@ -180,18 +175,28 @@ export default function Sidebar({ expanded }) {
                 selected={location.pathname === item.path}
                 sx={{
                   justifyContent: expanded ? 'flex-start' : 'center',
-                  px: 2,
-                  py: 0.8, // Reduced padding
+                  px: expanded ? 2 : 0,
+                  py: 0.8,
                   borderRadius: 2,
                   alignItems: 'center',
                   bgcolor: location.pathname === item.path ? '#F5F5F5' : 'transparent',
                   color: location.pathname === item.path ? '#8E0000' : '#450001',
                   '&:hover': { bgcolor: '#F5F5F5' },
-                  gap: 1.5,
+                  gap: expanded ? 1.5 : 0,
                   transition: 'all 0.3s ease-in-out',
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 0, color: 'inherit', justifyContent: 'center' }}>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    color: 'inherit',
+                    justifyContent: 'center',
+                    display: 'flex',
+                    alignItems: 'center',
+                    mr: expanded ? 2 : 0,
+                    transition: 'margin 0.3s ease',
+                  }}
+                >
                   {item.icon}
                 </ListItemIcon>
                 {expanded && <ListItemText primary={item.text} />}

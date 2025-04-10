@@ -33,16 +33,16 @@ export default function AppRoutes({ location }) {
   return (
     <Routes location={location}>
       {/* SUPER ADMIN ROUTES */}
-      <Route path="/superadmin/dashboard" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminDashboard /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/add-user" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AddUser /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/manage-users" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageUsers /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageCourses /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/view-reports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ViewReports /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><FileManagement /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/learning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><LearningManagement /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/notifications" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Notifications /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/settings" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
-      <Route path="/superadmin/help" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Help /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/dashboard" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminDashboard /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/add-user" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AddUser /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/manage-users" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageUsers /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageCourses /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/view-reports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ViewReports /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><FileManagement /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/learning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><LearningManagement /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/notifications" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Notifications /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/settings" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/help" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Help /></PageWrapper></ProtectedRoute>} />
 
       {/* ADMIN ROUTE */}
       <Route path="/admin/dashboard" element={<ProtectedRoute allowedRoles={['admin']}><PageWrapper><AdminDashboard /></PageWrapper></ProtectedRoute>} />

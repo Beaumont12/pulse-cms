@@ -139,7 +139,7 @@ export default function Login() {
           fadeOutAudio();
           setTimeout(() => {
             setSuccess('');
-            navigate('/superadmin/dashboard');
+            navigate('/super_admin/dashboard');
           }, 2000);
           break;
         case 'admin':
