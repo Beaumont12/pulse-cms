@@ -19,7 +19,7 @@ export default function FileManagement() {
       
       {/* Sidebar Nested Tabs */}
       <Box sx={{
-        width: 260,
+        width: 280,
         backgroundColor: '#fff',
         borderRight: '1px solid #eee',
         display: 'flex',
