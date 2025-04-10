@@ -1,9 +1,11 @@
 import React from 'react'
 
-const Dashboard = () => {
+const TeacherDashboard = () => {
   return (
-    <div>Dashboard</div>
+    <Box sx={{ width: '100%', p: 4 }}>
+      
+    </Box>
   )
 }
 
-export default Dashboard
+export default TeacherDashboard

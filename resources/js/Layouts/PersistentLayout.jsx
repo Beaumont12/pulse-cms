@@ -14,6 +14,7 @@ export default function PersistentLayout() {
   const [expanded, setExpanded] = useState(true);
   const location = useLocation();
   const isMobile = useMediaQuery('(max-width:600px)');
+  const role = localStorage.getItem("userRole"); 
 
   return (
     <>
@@ -35,21 +36,12 @@ export default function PersistentLayout() {
             <IconButton onClick={() => setExpanded(prev => !prev)} sx={{ color: '#450001' }}>
               <MenuIcon />
             </IconButton>
-            <Box component="img" src={logo} alt="Pulse Logo" sx={{ height: 40, cursor: 'default' }} />
-              {!isMobile && (
-                <Typography
-                  variant="h6"
-                  fontWeight="bold"
-                  ml={1}
-                  sx={{
-                    cursor: 'default',
-                    pointerEvents: 'none', // ensures no cursor on hover
-                    userSelect: 'none',    // optional: prevents text selection
-                  }}
-                >
-                  Pulse
-                </Typography>
-              )}
+            <Box component="img" src={logo} alt="Pulse Logo" sx={{ height: 40 }} />
+            {!isMobile && (
+              <Typography variant="h6" fontWeight="bold" ml={1}>
+                Pulse
+              </Typography>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
@@ -58,7 +50,7 @@ export default function PersistentLayout() {
       <Box sx={{ display: 'flex' }}>
         {/* Sidebar placed after AppBar, no need for top offset */}
         <Box sx={{ mt: '64px', position: 'fixed', top: 0, zIndex: 1200 }}>
-          <Sidebar expanded={expanded} onToggle={() => setExpanded(prev => !prev)} />
+          <Sidebar role={role} expanded={expanded} onToggle={() => setExpanded(prev => !prev)} />
         </Box>
 
         {/* Main content shifts based on sidebar width */}

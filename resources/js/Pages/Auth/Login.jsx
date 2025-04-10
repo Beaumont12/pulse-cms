@@ -116,18 +116,23 @@ export default function Login() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
       console.log('[DEBUG] Sign-in successful. UID:', uid);
-
+  
       const token = await userCredential.user.getIdToken();
-      localStorage.setItem('authToken', token);
+      localStorage.setItem('authToken', token);  // Store token in localStorage
       console.log('[DEBUG] Token stored in localStorage:', token);
-
+  
       const roleRef = ref(db, `users/${uid}/role`);
       const roleSnap = await get(roleRef);
       console.log('[DEBUG] Role snapshot exists:', roleSnap.exists());
       console.log('[DEBUG] Role snapshot value:', roleSnap.val());
-
+  
       const role = roleSnap.exists() ? roleSnap.val() : null;
-
+  
+      // Store the role in localStorage
+      if (role) {
+        localStorage.setItem('userRole', role);  // Store role in localStorage
+      }
+  
       switch (role) {
         case 'super_admin':
           setSuccess('Login successful! Redirecting...');
@@ -165,13 +170,13 @@ export default function Login() {
           setError('No role assigned. Please contact admin.');
           setDisplayedText("Hmm... I couldn't detect your role. You might want to page IT for this one!");
           console.warn('[DEBUG] No role found for user:', uid);
-      }      
+      }
     } catch (err) {
       console.error('[DEBUG] Login error:', err);
       const errorCode = err.code;
       const errorMessage = err.message;
       let friendlyMessage = '';
-
+  
       switch (errorCode) {
         case 'auth/invalid-email':
           friendlyMessage = "Invalid email format. Double-check that address, doc!";
@@ -188,7 +193,7 @@ export default function Login() {
         default:
           friendlyMessage = `Login failed. Something went wrong during diagnosis. (${errorCode || 'unknown error'})`;
       }
-
+  
       setError(friendlyMessage);
       setDisplayedText(friendlyMessage);
       console.warn('[DEBUG] Firebase error code:', errorCode);
@@ -196,7 +201,7 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   return (
     <>
@@ -225,6 +230,7 @@ export default function Login() {
         </Alert>
       </Fade>
     )}
+
     <Fade in={fadeIn} timeout={600}>
       <Box
         sx={{
