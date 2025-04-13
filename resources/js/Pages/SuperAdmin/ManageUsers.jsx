@@ -8,18 +8,15 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-import { auth, db, storage } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { ref as dbRef, set, onValue } from 'firebase/database';
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export default function ManageUsers() {
   const [tabValue, setTabValue] = useState(0);
   const tabLabels = ['Manage User', 'Add User', 'Password Resets & Account Recovery'];
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
+  const handleTabChange = (event, newValue) => setTabValue(newValue);
 
   const [formData, setFormData] = useState({
     name: '', email: '', password: '', role: '', photo: null,
@@ -39,23 +36,26 @@ export default function ManageUsers() {
     }
   };
 
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleAddUserSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      console.log('Creating user with email:', formData.email);
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const uid = userCredential.user.uid;
-      console.log('User created with UID:', uid);
 
-      let photoURL = '';
+      let photoBase64 = '';
       if (formData.photo) {
-        const imageRef = storageRef(storage, `avatars/${uid}/${formData.photo.name}`);
-        console.log('Uploading photo to storage...');
-        await uploadBytes(imageRef, formData.photo);
-        photoURL = await getDownloadURL(imageRef);
-        console.log('Photo uploaded, URL:', photoURL);
+        photoBase64 = await convertToBase64(formData.photo);
       }
 
       const userRef = dbRef(db, `users/${uid}`);
@@ -63,14 +63,10 @@ export default function ManageUsers() {
         name: formData.name,
         email: formData.email,
         role: formData.role,
-        photoURL,
+        photoBase64,
       };
-      console.log('Saving user data to Realtime Database:', userData);
-      await set(userRef, userData);
 
-      const debugRef = dbRef(db, `debug_test/${Date.now()}`);
-      await set(debugRef, { message: "Test write success" });
-      console.log('✅ Test debug write successful.');
+      await set(userRef, userData);
 
       alert('✅ User added successfully!');
       setFormData({ name: '', email: '', password: '', role: '', photo: null });
@@ -120,12 +116,13 @@ export default function ManageUsers() {
           <Link underline="hover" color="inherit" href="#">User Management</Link>
           <Typography color="text.primary">{tabLabels[tabValue]}</Typography>
         </Breadcrumbs>
+
         {tabValue === 0 && (
           <Grid container spacing={2}>
             {users.map((user) => (
               <Grid item xs={12} sm={6} md={4} key={user.uid}>
                 <Paper sx={{ p: 3, borderRadius: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Avatar src={user.photoURL} alt={user.name} sx={{ width: 56, height: 56 }} />
+                  <Avatar src={user.photoBase64} alt={user.name} sx={{ width: 56, height: 56 }} />
                   <Box>
                     <Typography fontWeight="bold">{user.name}</Typography>
                     <Typography variant="body2" color="text.secondary">{user.email}</Typography>
@@ -136,6 +133,7 @@ export default function ManageUsers() {
             ))}
           </Grid>
         )}
+
         {tabValue === 1 && (
           <Paper elevation={2} sx={{ p: 3, borderRadius: 2, maxWidth: 500 }}>
             <Typography fontWeight="bold" color="#450001" mb={2}>Add New User</Typography>
@@ -170,6 +168,7 @@ export default function ManageUsers() {
             </form>
           </Paper>
         )}
+
         {tabValue === 2 && (
           <Typography color="text.secondary">[Password Reset Placeholder]</Typography>
         )}
