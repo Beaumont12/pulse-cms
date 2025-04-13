@@ -23,32 +23,32 @@ export default function SuperAdminDashboard() {
 
       {/* Breadcrumbs */}
       <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          mb: 3,
-          mt: { xs: 1, sm: 0 },
-          textAlign: 'center',
-        }}
-      >
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb"
-          sx={{
-            maxWidth: '100%',
-            justifyContent: 'center',
-            display: 'flex',
-            flexWrap: 'wrap',
-            fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.95rem' },
-            wordBreak: 'break-word',
-            px: 1,
-            mb: 3,
-          }}
-        >
-          <Link underline="hover" color="inherit" href="#">Home</Link>
-          <Typography color="text.primary">Dashboard</Typography>
-        </Breadcrumbs>
-      </Box>
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start', // changed from 'center' to 'flex-end'
+    mb: 3,
+    mt: { xs: 1, sm: 0 },
+    textAlign: 'right', // optional for better alignment
+  }}
+>
+  <Breadcrumbs
+    separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb"
+    sx={{
+      maxWidth: '100%',
+      justifyContent: 'flex-end',
+      display: 'flex',
+      flexWrap: 'wrap',
+      fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.95rem' },
+      wordBreak: 'break-word',
+      px: 1,
+      mb: 3,
+    }}
+  >
+    <Link underline="hover" color="inherit" href="#">Home</Link>
+    <Typography color="text.primary">Dashboard</Typography>
+  </Breadcrumbs>
+</Box>
 
       {/* Stat Cards */}
       <Grid container spacing={2} mb={2}>

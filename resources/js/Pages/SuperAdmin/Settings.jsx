@@ -1,250 +1,170 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Tabs, Tab, TextField, Paper, Grid,
-  Button, List, ListItem, ListItemText, ListItemIcon, MenuItem, Select,
-  Switch, FormControlLabel, Divider, Table, TableContainer, TableHead, TableBody, TableRow, TableCell
+  Box, Button, TextField, Typography, MenuItem, CircularProgress
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HistoryIcon from '@mui/icons-material/History';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import LockIcon from '@mui/icons-material/Lock';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-const Settings = () => {
-  const [tabValue, setTabValue] = useState(0);
-  const [notifEnabled, setNotifEnabled] = useState(true);
-  const [autoLogout, setAutoLogout] = useState(15);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { auth, db, storage } from '../../firebase'; // ✅ correct path
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { ref as dbRef, set } from 'firebase/database';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-  const handleSave = () => {
-    console.log({ notifEnabled, autoLogout, email, password });
+const AddUser = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: '',
+    photo: null,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === 'photo') {
+      const file = files[0];
+      setFormData({ ...formData, photo: file });
+      setPreview(URL.createObjectURL(file));
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  const activityLogs = [
-    { time: 'Apr 10, 2025 - 3:42 PM', action: 'Logged in from web' },
-    { time: 'Apr 09, 2025 - 8:13 AM', action: 'Changed password' },
-    { time: 'Apr 08, 2025 - 7:55 PM', action: 'Logged in from mobile' },
-  ];
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const tabLabels = ['Account Settings', 'Preferences', 'Activity Logs & Export', 'Access Control'];
+    try {
+      // 1. Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const uid = userCredential.user.uid;
+
+      // 2. Upload photo if selected
+      let photoURL = '';
+      if (formData.photo) {
+        const path = `avatars/${uid}/${formData.photo.name}`;
+        const imageRef = storageRef(storage, path);
+        await uploadBytes(imageRef, formData.photo);
+        photoURL = await getDownloadURL(imageRef);
+      }
+
+      // 3. Save user to Realtime Database
+      const userRef = dbRef(db, `users/${uid}`);
+      await set(userRef, {
+        name: formData.name,
+        email: formData.email,
+        role: formData.role,
+        photoURL,
+      });
+
+      alert('✅ User successfully added!');
+      setFormData({ name: '', email: '', password: '', role: '', photo: null });
+      setPreview('');
+    } catch (err) {
+      console.error(err);
+      alert('❌ Failed to add user: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
-      {/* Sidebar Tabs */}
-      <Box sx={{
-        width: 280,
-        backgroundColor: '#fff',
-        borderRight: '1px solid #eee',
-        py: 2,
-      }}>
-        {/* Title */}
-        <Box sx={{ mb: 2, mt: 2, p: 2 }}>
-          <Typography variant="h5" fontWeight="bold" color="#450001">
-            Settings
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            Manage your preferences, security, and system settings
-          </Typography>
-        </Box>
+    <Box
+      sx={{
+        maxWidth: 500,
+        mx: 'auto',
+        mt: 6,
+        p: 4,
+        bgcolor: '#fff',
+        borderRadius: 2,
+        boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+      }}
+    >
+      <form onSubmit={handleSubmit}>
+        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mb: 1 }}>
+          Name
+        </Typography>
+        <TextField
+          fullWidth placeholder="Full Name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          margin="dense"
+        />
 
-        <Tabs
-          value={tabValue}
-          onChange={(e, newVal) => setTabValue(newVal)}
-          orientation="vertical"
-          variant="scrollable"
-          scrollButtons="auto"
+        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
+          Email
+        </Typography>
+        <TextField
+          fullWidth placeholder="Email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          margin="dense"
+        />
+
+        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
+          Password
+        </Typography>
+        <TextField
+          fullWidth placeholder="Password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+          margin="dense"
+        />
+
+        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
+          Role
+        </Typography>
+        <TextField
+          fullWidth select name="role"
+          value={formData.role}
+          onChange={handleChange}
+          margin="dense"
+        >
+          <MenuItem value="admin">Admin</MenuItem>
+          <MenuItem value="teacher">Teacher</MenuItem>
+          <MenuItem value="student">Student</MenuItem>
+        </TextField>
+
+        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
+          Profile Picture
+        </Typography>
+        <Button variant="contained" component="label" sx={{ mb: 1 }}>
+          Upload Image
+          <input type="file" hidden name="photo" accept="image/*" onChange={handleChange} />
+        </Button>
+
+        {preview && (
+          <Box mt={1}>
+            <img src={preview} alt="Preview" style={{ width: 100, height: 100, borderRadius: '50%' }} />
+          </Box>
+        )}
+
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          disabled={loading}
           sx={{
-            '& .MuiTab-root': {
-              justifyContent: 'flex-start',
-              gap: 1.5,
-              px: 2,
-              py: 1.2,
-              alignItems: 'center',
-              color: '#450001',
-              fontWeight: 500,
-              textTransform: 'none',
-              fontSize: '0.95rem',
-              borderRadius: 2,
-            },
-            '& .Mui-selected': {
-              bgcolor: '#F5F5F5',
-              color: '#8E0000',
-            },
-            '& .MuiTab-wrapper': {
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              textAlign: 'left',
-            },
+            mt: 4,
+            bgcolor: '#8E0000',
+            '&:hover': { backgroundColor: '#660200' },
+            textTransform: 'none',
+            fontWeight: 'bold',
+            fontSize: '1rem',
           }}
         >
-          <Tab icon={<AccountCircleIcon fontSize="small" />} iconPosition="start" label="Account Settings" />
-          <Tab icon={<SettingsIcon fontSize="small" />} iconPosition="start" label="Preferences" />
-          <Tab icon={<HistoryIcon fontSize="small" />} iconPosition="start" label="Activity Logs & Export" />
-          <Tab icon={<LockIcon fontSize="small" />} iconPosition="start" label="Access Control" />
-        </Tabs>
-      </Box>
-
-      {/* Main Content */}
-      <Box sx={{ flexGrow: 1, p: 4 }}>
-        
-        {/* Panel Content */}
-        {tabValue === 0 && (
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-                <Typography fontWeight="bold" color="#450001" mb={2}>Change Email</Typography>
-                <TextField
-                  fullWidth
-                  label="New Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  sx={{ mb: 2 }}
-                />
-                <Typography fontWeight="bold" color="#450001" mb={2}>Change Password</Typography>
-                <TextField
-                  fullWidth
-                  label="New Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  sx={{ mb: 2 }}
-                />
-                <Button
-                  variant="contained"
-                  onClick={handleSave}
-                  sx={{ backgroundColor: '#8E0000', textTransform: 'none' }}
-                >
-                  Save Changes
-                </Button>
-              </Paper>
-            </Grid>
-          </Grid>
-        )}
-
-        {tabValue === 1 && (
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-                <Typography fontWeight="bold" color="#450001" mb={2}>Notification Preferences</Typography>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={notifEnabled}
-                      onChange={(e) => setNotifEnabled(e.target.checked)}
-                    />
-                  }
-                  label="Enable Notifications"
-                  sx={{ mb: 2 }}
-                />
-
-                <Divider sx={{ my: 2 }} />
-
-                <Typography fontWeight="bold" color="#450001" mb={1}>
-                  Auto Logout Timer
-                </Typography>
-                <Select
-                  value={autoLogout}
-                  onChange={(e) => setAutoLogout(e.target.value)}
-                  fullWidth
-                  size="small"
-                  sx={{ mb: 1 }}
-                >
-                  <MenuItem value={5}>5 minutes</MenuItem>
-                  <MenuItem value={10}>10 minutes</MenuItem>
-                  <MenuItem value={15}>15 minutes</MenuItem>
-                  <MenuItem value={30}>30 minutes</MenuItem>
-                  <MenuItem value={60}>1 hour</MenuItem>
-                </Select>
-                <Typography variant="caption" color="text.secondary">
-                  Automatically log out if there's no activity
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
-        )}
-
-        {tabValue === 2 && (
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-                <Typography fontWeight="bold" color="#450001" mb={2}>Login Activity</Typography>
-                <List dense>
-                  {activityLogs.map((log, i) => (
-                    <ListItem key={i}>
-                      <ListItemIcon>
-                        <HistoryIcon fontSize="small" sx={{ color: '#8E0000' }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={log.action}
-                        secondary={log.time}
-                        primaryTypographyProps={{ fontSize: '0.9rem' }}
-                        secondaryTypographyProps={{ fontSize: '0.75rem', color: 'text.secondary' }}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-                <Typography fontWeight="bold" color="#450001" mb={2}>Export Data</Typography>
-                <Typography variant="body2" color="text.secondary" mb={2}>
-                  Download your reports or user activity logs for documentation.
-                </Typography>
-                <Button
-                  variant="outlined"
-                  startIcon={<FileDownloadIcon />}
-                  sx={{
-                    borderColor: '#8E0000',
-                    color: '#8E0000',
-                    textTransform: 'none',
-                    '&:hover': {
-                      backgroundColor: '#f5f5f5',
-                      borderColor: '#8E0000',
-                    },
-                  }}
-                >
-                  Download CSV
-                </Button>
-              </Paper>
-            </Grid>
-          </Grid>
-        )}
-
-        {tabValue === 3 && (
-          <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-            <Typography fontWeight="bold" color="#450001" mb={2}>Role-Based Access</Typography>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Role</TableCell>
-                    <TableCell>Access Permissions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Super Admin</TableCell>
-                    <TableCell>All system modules (read/write/delete)</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Admin</TableCell>
-                    <TableCell>Users, courses, and reports management</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Teacher</TableCell>
-                    <TableCell>Quiz, leaderboard, and feedback features</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        )}
-      </Box>
+          {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Save User'}
+        </Button>
+      </form>
     </Box>
   );
 };
 
-export default Settings;
+export default AddUser;
