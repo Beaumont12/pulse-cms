@@ -8,6 +8,7 @@ import GameRedirect from './Pages/Student/GameRedirect';
 import SuperAdminDashboard from './Pages/SuperAdmin/Dashboard';
 import AddUser from './Pages/SuperAdmin/AddUser';
 import ManageUsers from './Pages/SuperAdmin/ManageUsers';
+import AccountRecovery from './Pages/SuperAdmin/AccountRecovery';
 import ManageCourses from './Pages/Admin/ManageCourses';
 import ViewReports from './Pages/SuperAdmin/ViewReports';
 import FileManagement from './Pages/SuperAdmin/FileManagement';
@@ -29,6 +30,7 @@ import Participants from './Pages/Teacher/Participants';
 import Feedback from './Pages/Teacher/Feedback';
 import TeacherHelp from './Pages/Teacher/Help';
 
+
 export default function AppRoutes({ location }) {
   return (
     <Routes location={location}>
@@ -36,6 +38,7 @@ export default function AppRoutes({ location }) {
       <Route path="/super_admin/dashboard" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminDashboard /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/add-user" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AddUser /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/manage-users" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageUsers /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/account-recovery" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AccountRecovery /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageCourses /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/view-reports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ViewReports /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><FileManagement /></PageWrapper></ProtectedRoute>} />

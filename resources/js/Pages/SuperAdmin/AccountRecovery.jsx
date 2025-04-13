@@ -1,0 +1,147 @@
+import React, { useEffect, useState } from 'react';
+import {
+  Box, Typography, Paper, Avatar, Button, Grid, Tabs, Tab, Breadcrumbs, Link
+} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import LockResetIcon from '@mui/icons-material/LockReset';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+
+import { db } from '../../firebase';
+import { onValue, ref as dbRef } from 'firebase/database';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+const AccountRecovery = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const getCurrentTab = () => {
+    if (location.pathname.includes('manage-users')) return 0;
+    if (location.pathname.includes('add-user')) return 1;
+    if (location.pathname.includes('account-recovery')) return 2; // ✅ fixed
+    return 0;
+  };
+  
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+    if (newValue === 0) navigate('/super_admin/manage-users');
+    if (newValue === 1) navigate('/super_admin/add-user');
+    if (newValue === 2) navigate('/super_admin/account-recovery'); // ✅ fixed
+  };
+  
+  const [tabValue, setTabValue] = useState(getCurrentTab());
+  
+
+  useEffect(() => {
+    const usersRef = dbRef(db, 'users');
+    onValue(usersRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const usersArray = Object.entries(data).map(([uid, user]) => ({ uid, ...user }));
+        setUsers(usersArray);
+      }
+    });
+  }, []);
+
+  const handleResetPassword = (user) => {
+    alert(`🔐 Password reset link should be sent to: ${user.email}`);
+    // Add actual Firebase logic if needed
+  };
+
+  return (
+    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
+      {/* Sidebar */}
+      <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee', py: 1 }}>
+        <Box sx={{ p: 2 }}>
+          <Typography variant="h6" fontWeight="semi-bold" color="#450001">User Management</Typography>
+          <Typography variant="caption" color="text.secondary">Manage users, roles and access</Typography>
+        </Box>
+        <Tabs value={tabValue} onChange={handleTabChange} orientation="vertical" scrollButtons="auto" sx={{
+          '& .MuiTab-root': {
+            justifyContent: 'flex-start', gap: 1.5, px: 2, py: 1.2, m: 0.1, alignItems: 'center',
+            color: '#450001', fontWeight: 500, textTransform: 'none', fontSize: '0.99rem', borderRadius: 2,
+          },
+          '& .Mui-selected': { bgcolor: '#F5F5F5', color: '#8E0000' },
+          '& .MuiTab-wrapper': { flexDirection: 'row', justifyContent: 'flex-start' },
+        }}>
+          <Tab icon={<PersonIcon />} iconPosition="start" label="Manage User" />
+          <Tab icon={<PersonAddIcon />} iconPosition="start" label="Add User" />
+          <Tab icon={<LockResetIcon />} iconPosition="start" label="Account Recovery" />
+        </Tabs>
+      </Box>
+
+      {/* Main Content */}
+      <Box sx={{ flexGrow: 1, p: 4 }}>
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }}>
+          <Link underline="hover" color="inherit" href="#">User Management</Link>
+          <Typography color="#8E0000" fontWeight="bold">Password Resets & Account Recovery</Typography>
+        </Breadcrumbs>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={5}>
+            {users.map((user) => (
+              <Paper key={user.uid} onClick={() => setSelectedUser(user)} sx={{
+                p: 2, mb: 2, borderRadius: 2, cursor: 'pointer',
+                border: selectedUser?.uid === user.uid ? '2px solid #8E0000' : '1px solid #ccc',
+                transition: '0.2s',
+                '&:hover': { borderColor: '#8E0000', backgroundColor: '#fef7f7' }
+              }}>
+                <Box display="flex" alignItems="center" gap={2}>
+                  <Avatar src={user.photoURL || user.photoBase64} sx={{ width: 56, height: 56 }} />
+                  <Box>
+                    <Typography fontWeight="bold" color="#450001">{user.name}</Typography>
+                    <Typography variant="body2">{user.email}</Typography>
+                    <Typography variant="caption">ID: {user.staffId || 'Staff_1'}</Typography><br />
+                    <Typography variant="caption" color="text.secondary">Role: {user.role}</Typography><br />
+                    <Typography variant="caption">Age: {user.age || 'N/A'}</Typography><br />
+                    <Typography variant="caption">Phone: {user.phone || 'N/A'}</Typography><br />
+                    <Typography variant="caption">Birthday: {user.birthday || 'N/A'}</Typography>
+                  </Box>
+                </Box>
+              </Paper>
+            ))}
+          </Grid>
+
+          <Grid item xs={12} md={7}>
+            {selectedUser ? (
+              <Paper elevation={2} sx={{ p: 4, borderRadius: 2 }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                  <Typography variant="h6" fontWeight="bold" color="#450001">Profile</Typography>
+                  <Button
+                    onClick={() => handleResetPassword(selectedUser)}
+                    sx={{
+                      bgcolor: '#8E0000',
+                      color: '#fff',
+                      textTransform: 'none',
+                      fontWeight: 'bold',
+                      '&:hover': { backgroundColor: '#660200' },
+                    }}
+                    startIcon={<LockResetIcon />}
+                  >
+                    Reset Password
+                  </Button>
+                </Box>
+                <Typography><strong>Name:</strong> {selectedUser.name}</Typography>
+                <Typography><strong>Email:</strong> {selectedUser.email}</Typography>
+                <Typography><strong>Age:</strong> {selectedUser.age || 'N/A'}</Typography>
+                <Typography><strong>Birthday:</strong> {selectedUser.birthday || 'N/A'}</Typography>
+                <Typography><strong>Phone:</strong> {selectedUser.phone || 'N/A'}</Typography>
+                <Typography><strong>Role:</strong> {selectedUser.role}</Typography>
+                <Typography><strong>Last Session:</strong> {selectedUser.lastSession || '02/14/25 06:33 PM'}</Typography>
+              </Paper>
+            ) : (
+              <Typography variant="body2" color="text.secondary" mt={10}>
+                Select a user to view details.
+              </Typography>
+            )}
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
+  );
+};
+
+export default AccountRecovery;
