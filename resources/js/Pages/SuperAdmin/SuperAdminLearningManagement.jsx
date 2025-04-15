@@ -1,26 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Box, Typography, Paper, Grid, Tabs, Tab, Breadcrumbs, Link, IconButton
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  Tabs,
+  Tab,
+  Breadcrumbs,
+  Link
 } from '@mui/material';
+
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
-export default function FileManagement() {
-  const [tabValue, setTabValue] = useState(0);
+import { useLocation, useNavigate } from 'react-router-dom';
+
+export default function SuperAdminLearningManagement() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const getCurrentTab = () => {
+    if (location.pathname.includes('SuperAdminquestion-bank')) return 1;
+    if (location.pathname.includes('SuperAdmincourses')) return 2;
+    return 0;
+  };
+
+  const [tabValue, setTabValue] = useState(getCurrentTab());
+
   const tabLabels = ['Quizzes', 'Question Bank', 'Courses'];
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+    if (newValue === 0) navigate('/super_admin/SuperAdminlearning-management');
+    if (newValue === 1) navigate('/super_admin/SuperAdminquestion-bank');
+    if (newValue === 2) navigate('/super_admin/SuperAdmincourses');
   };
+
+  useEffect(() => {
+    setTabValue(getCurrentTab());
+  }, [location.pathname]);
 
   return (
     <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
-      
-      {/* Sidebar Nested Tabs */}
+      {/* Sidebar */}
       <Box sx={{
         width: 280,
         backgroundColor: '#fff',
@@ -29,7 +53,6 @@ export default function FileManagement() {
         flexDirection: 'column',
         py: 2,
       }}>
-        {/* Title + Subtitle */}
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
           <Typography variant="h6" fontWeight="bold" color="#450001">
             Learning Management
@@ -77,51 +100,53 @@ export default function FileManagement() {
 
       {/* Main Content Area */}
       <Box sx={{ flexGrow: 1, p: 4 }}>
-
-        {/* Breadcrumbs */}
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 4 }}>
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 4 }}>
           <Link underline="hover" color="inherit" href="#">
-            Content and File Management
+            Learning Management
           </Link>
           <Typography color="text.primary">{tabLabels[tabValue]}</Typography>
         </Breadcrumbs>
 
-        {/* Tab Panel Content */}
+        {/* QUIZZES */}
         {tabValue === 0 && (
-          <Grid container spacing={2}>
-            {['Report 1', 'Report 2'].map((report, index) => (
-              <Grid item key={index} xs={12} sm={6} md={4}>
-                <Paper elevation={2} sx={{
-                  px: 3, py: 2, borderRadius: 2,
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-                }}>
-                  <Typography fontWeight="bold" fontSize="0.95rem" color="#450001">
-                    {report}
+          <Grid container spacing={3}>
+            {[
+              { subject: 'Biology : ITE 123', title: 'Quiz 1', bg: '#3b0000' },
+              { subject: 'Biochem : ITE 345', title: 'Quiz 3', bg: '#8E0000' },
+            ].map((quiz, index) => (
+              <Grid item key={index} xs={12} sm={6} md={3}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 2.5,
+                    borderRadius: 2,
+                    backgroundColor: quiz.bg,
+                    color: '#fff',
+                    height: 140,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  <Typography fontSize="0.95rem" sx={{ mb: 1 }}>
+                    {quiz.subject}
                   </Typography>
-                  <IconButton color="primary">
-                    <FileDownloadIcon />
-                  </IconButton>
+                  <Typography fontSize="1.5rem">{quiz.title}</Typography>
                 </Paper>
               </Grid>
             ))}
           </Grid>
         )}
 
+        {/* Placeholder for other tabs */}
         {tabValue === 1 && (
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
-              <Paper elevation={2} sx={{ p: 3, borderRadius: 2 }}>
-                <Typography fontWeight="bold" color="#450001" mb={1.5}>Upload File</Typography>
-                <Typography color="text.secondary" fontSize="0.9rem" mb={2}>
-                  Upload learning materials such as handouts, syllabi, or certificates.
-                </Typography>
-                <Typography variant="body2" color="text.secondary">[Upload UI Placeholder]</Typography>
-                <Typography variant="body2" color="text.secondary" mt={2}>
-                  Add category filters, tags, and expiration controls if needed.
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
+          <Typography color="text.secondary">[Question Bank Placeholder]</Typography>
+        )}
+        {tabValue === 2 && (
+          <Typography color="text.secondary">[Courses Placeholder]</Typography>
         )}
       </Box>
     </Box>

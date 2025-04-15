@@ -12,7 +12,9 @@ import AccountRecovery from './Pages/SuperAdmin/AccountRecovery';
 import ManageCourses from './Pages/Admin/ManageCourses';
 import ViewReports from './Pages/SuperAdmin/ViewReports';
 import FileManagement from './Pages/SuperAdmin/FileManagement';
-import LearningManagement from './Pages/SuperAdmin/LearningManagement';
+import SuperAdminLearningManagement from './Pages/SuperAdmin/SuperAdminLearningManagement';
+import SuperAdminQuestionBank from './Pages/SuperAdmin/SuperAdminquestion-bank';
+import SuperAdminCourses from './Pages/SuperAdmin/SuperAdmincourses';
 import Notifications from './Pages/SuperAdmin/Notifications';
 import Settings from './Pages/SuperAdmin/Settings';
 import Help from './Pages/SuperAdmin/Help';
@@ -42,7 +44,9 @@ export default function AppRoutes({ location }) {
       <Route path="/super_admin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageCourses /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/view-reports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ViewReports /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><FileManagement /></PageWrapper></ProtectedRoute>} />
-      <Route path="/super_admin/learning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><LearningManagement /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminlearning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminLearningManagement /></PageWrapper></ProtectedRoute>} />
+<Route path="/super_admin/SuperAdminquestion-bank" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuestionBank /></PageWrapper></ProtectedRoute>} />
+<Route path="/super_admin/SuperAdmincourses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminCourses /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/notifications" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Notifications /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/settings" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/help" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Help /></PageWrapper></ProtectedRoute>} />
