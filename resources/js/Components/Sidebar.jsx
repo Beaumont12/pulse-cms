@@ -28,7 +28,7 @@ const baseItems = (role) => [
   { text: 'Dashboard', icon: <HomeIcon />, path: `/${role}/dashboard` },
   { text: 'Users', icon: <PersonIcon />, path: `/${role}/manage-users` },
   { text: 'Learning Management', icon: <ContentPasteIcon />, path: `/${role}/SuperAdminlearning-management` },
-  { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/view-reports` },
+  { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/SuperAdminUserProgress` },
   { text: 'Files', icon: <FolderIcon />, path: `/${role}/files` },
   { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/notifications`, hasBadge: true },
   { text: 'Settings', icon: <SettingsIcon />, path: `/${role}/settings` },

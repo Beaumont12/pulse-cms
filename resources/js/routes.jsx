@@ -10,7 +10,8 @@ import AddUser from './Pages/SuperAdmin/AddUser';
 import ManageUsers from './Pages/SuperAdmin/ManageUsers';
 import AccountRecovery from './Pages/SuperAdmin/AccountRecovery';
 import ManageCourses from './Pages/Admin/ManageCourses';
-import ViewReports from './Pages/SuperAdmin/ViewReports';
+import SuperAdminUserProgress from './Pages/SuperAdmin/SuperAdminUserProgress';
+import SuperAdminQuizandCourseAnalytics from './Pages/SuperAdmin/SuperAdminQuizandCourseAnalytics';
 import FileManagement from './Pages/SuperAdmin/FileManagement';
 import SuperAdminLearningManagement from './Pages/SuperAdmin/SuperAdminLearningManagement';
 import SuperAdminQuestionBank from './Pages/SuperAdmin/SuperAdminquestion-bank';
@@ -33,6 +34,7 @@ import Feedback from './Pages/Teacher/Feedback';
 import TeacherHelp from './Pages/Teacher/Help';
 
 
+
 export default function AppRoutes({ location }) {
   return (
     <Routes location={location}>
@@ -42,7 +44,8 @@ export default function AppRoutes({ location }) {
       <Route path="/super_admin/manage-users" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageUsers /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/account-recovery" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AccountRecovery /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageCourses /></PageWrapper></ProtectedRoute>} />
-      <Route path="/super_admin/view-reports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ViewReports /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminUserProgress" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminUserProgress /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminQuizandCourseAnalytics" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuizandCourseAnalytics /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><FileManagement /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/SuperAdminlearning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminLearningManagement /></PageWrapper></ProtectedRoute>} />
 <Route path="/super_admin/SuperAdminquestion-bank" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuestionBank /></PageWrapper></ProtectedRoute>} />

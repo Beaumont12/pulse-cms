@@ -1,32 +1,49 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Paper, Grid, Tabs, Tab, Breadcrumbs, Link
+  Box,
+  Typography,
+  Paper,
+  Tabs,
+  Tab,
+  Breadcrumbs,
+  Link
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function ViewReports() {
-  const [tabValue, setTabValue] = useState(0);
+export default function SuperAdminUserProgress() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const tabLabels = ['User Progress Reports', 'Quiz & Course Analytics'];
+
+  const getCurrentTab = () => {
+    return location.pathname.includes('SuperAdminQuizandCourseAnalytics') ? 1 : 0;
+  };
+
+  const [tabValue, setTabValue] = useState(getCurrentTab());
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+    if (newValue === 0) navigate('/super_admin/SuperAdminUserProgress');
+    if (newValue === 1) navigate('/super_admin/SuperAdminQuizandCourseAnalytics');
   };
 
   return (
     <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
-      
-      {/* Sidebar Nested Tabs */}
-      <Box sx={{
-        width: 280,
-        backgroundColor: '#fff',
-        borderRight: '1px solid #eee',
-        display: 'flex',
-        flexDirection: 'column',
-        py: 2,
-      }}>
-        {/* Title and Subtitle */}
+      {/* Sidebar Tabs */}
+      <Box
+        sx={{
+          width: 280,
+          backgroundColor: '#fff',
+          borderRight: '1px solid #eee',
+          display: 'flex',
+          flexDirection: 'column',
+          py: 2,
+        }}
+      >
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
           <Typography variant="h5" fontWeight="bold" color="#450001">
             Reports & Analytics
@@ -73,16 +90,15 @@ export default function ViewReports() {
 
       {/* Main Content Area */}
       <Box sx={{ flexGrow: 1, p: 4 }}>
-        
         {/* Breadcrumbs */}
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 4 }}>
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 4 }}>
           <Link underline="hover" color="inherit" href="#">
             Report and Analytics
           </Link>
           <Typography color="text.primary">{tabLabels[tabValue]}</Typography>
         </Breadcrumbs>
 
-        {/* Content based on selected tab */}
+        {/* Tab Content */}
         {tabValue === 0 && (
           <>
             <Paper elevation={2} sx={{ p: 2, borderRadius: 2, mb: 2 }}>
