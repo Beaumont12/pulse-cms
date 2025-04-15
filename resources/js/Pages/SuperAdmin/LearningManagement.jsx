@@ -28,8 +28,8 @@ export default function FileManagement() {
       }}>
         {/* Title + Subtitle */}
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
-          <Typography variant="h5" fontWeight="bold" color="#450001">
-            File Management
+          <Typography variant="h6" fontWeight="bold" color="#450001">
+            Learning Management
           </Typography>
           <Typography variant="caption" color="text.secondary">
             Manage downloadable content and uploaded resources

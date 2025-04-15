@@ -77,8 +77,8 @@ export default function PersistentLayout() {
             </IconButton>
             <Box component="img" src={logo} alt="Pulse Logo" sx={{ height: 40 }} />
             {!isMobile && (
-              <Typography variant="h6" fontWeight="bold" color="#450001" ml={1}>
-                Dashboard
+              <Typography variant="h6" fontWeight="bold" color="#450001" ml={0}>
+                Pulse
               </Typography>
             )}
           </Box>
