@@ -6,6 +6,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 
 import { db } from '../../firebase';
 import { onValue, ref as dbRef } from 'firebase/database';
@@ -64,9 +67,9 @@ export default function ManageUsers() {
           '& .Mui-selected': { bgcolor: '#F5F5F5', color: '#8E0000' },
           '& .MuiTab-wrapper': { flexDirection: 'row', justifyContent: 'flex-start' },
         }}>
-          <Tab icon={<PersonIcon />} iconPosition="start" label="Manage User" />
-          <Tab icon={<PersonAddIcon />} iconPosition="start" label="Add User" />
-          <Tab icon={<LockResetIcon />} iconPosition="start" label="Account Recovery" />
+          <Tab icon={<ManageAccountsOutlinedIcon />} iconPosition="start" label="Manage User" />
+          <Tab icon={<PersonAddAltOutlinedIcon />} iconPosition="start" label="Add User" />
+          <Tab icon={<AdminPanelSettingsOutlinedIcon />} iconPosition="start" label="Account Recovery" />
         </Tabs>
       </Box>
 

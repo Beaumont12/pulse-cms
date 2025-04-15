@@ -6,6 +6,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -105,9 +108,9 @@ const AddUser = () => {
           '& .Mui-selected': { bgcolor: '#F5F5F5', color: '#8E0000', fontWeight: 'semi-bold' },
           '& .MuiTab-wrapper': { flexDirection: 'row', justifyContent: 'flex-start', textAlign: 'left' },
         }}>
-          <Tab icon={<PersonIcon fontSize="small" />} iconPosition="start" label="Manage User" />
-          <Tab icon={<PersonAddIcon fontSize="small" />} iconPosition="start" label="Add User" />
-          <Tab icon={<LockResetIcon fontSize="small" />} iconPosition="start" label="Account Recovery" />
+         <Tab icon={<ManageAccountsOutlinedIcon />} iconPosition="start" label="Manage User" />
+          <Tab icon={<PersonAddAltOutlinedIcon />} iconPosition="start" label="Add User" />
+          <Tab icon={<AdminPanelSettingsOutlinedIcon />} iconPosition="start" label="Account Recovery" />
         </Tabs>
       </Box>
 

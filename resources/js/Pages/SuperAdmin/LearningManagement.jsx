@@ -5,10 +5,13 @@ import {
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
+import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
 export default function FileManagement() {
   const [tabValue, setTabValue] = useState(0);
-  const tabLabels = ['Downloadable Reports', 'Upload Learning Materials'];
+  const tabLabels = ['Quizzes', 'Question Bank', 'Courses'];
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -66,8 +69,9 @@ export default function FileManagement() {
             },
           }}
         >
-          <Tab icon={<FileDownloadIcon fontSize="small" />} iconPosition="start" label="Downloadable Reports" />
-          <Tab icon={<CloudUploadIcon fontSize="small" />} iconPosition="start" label="Upload Learning Materials" />
+          <Tab icon={<AssignmentOutlinedIcon fontSize="small" />} iconPosition="start" label="Quizzes" />
+          <Tab icon={<QuizOutlinedIcon fontSize="small" />} iconPosition="start" label="Question Bank" />
+          <Tab icon={<LocalLibraryOutlinedIcon fontSize="small" />} iconPosition="start" label="Courses" />
         </Tabs>
       </Box>
 
