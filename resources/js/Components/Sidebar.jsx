@@ -208,6 +208,7 @@ export default function Sidebar({ expanded }) {
                           display: 'flex',
                           alignItems: 'center',
                           mr: expanded ? 2 : 0,
+                          mt: .5
                         }}
                       >
                         {item.icon}

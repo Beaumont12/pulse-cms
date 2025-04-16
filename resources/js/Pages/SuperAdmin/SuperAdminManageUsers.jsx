@@ -30,10 +30,11 @@ export default function SuperAdminManageUsers() {
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
-    if (newValue === 0) navigate('/super_admin/SuperAdminManageUsers');
-    if (newValue === 1) navigate('/super_admin/SuperAdminAddUser');
-    if (newValue === 2) navigate('/super_admin/SuperAdminAccountRecovery');
+    if (newValue === 0) navigate('/super_admin/SuperAdminManageUsers', { replace: true });
+    if (newValue === 1) navigate('/super_admin/SuperAdminAddUser', { replace: true });
+    if (newValue === 2) navigate('/super_admin/SuperAdminAccountRecovery', { replace: true });
   };
+  
 
   useEffect(() => {
     console.log("📍 Current route:", location.pathname); // see current path
@@ -56,17 +57,45 @@ export default function SuperAdminManageUsers() {
       {/* Sidebar */}
       <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee'}}>
         <Box sx={{ p: 1 }}>
-          <Typography variant="h6" fontWeight="semi-bold" color="#450001">User Management</Typography>
-          <Typography variant="caption" color="text.secondary">Manage users, roles and access</Typography>
+          <Typography variant="h6" fontWeight="semi-bold" color="#450001" ml={2} mt={1}>User Management</Typography>
+          <Typography variant="caption" color="text.secondary" ml={2}>Manage users, roles and access</Typography>
         </Box>
-        <Tabs value={tabValue} onChange={handleTabChange} orientation="vertical" scrollButtons="auto" sx={{
-          '& .MuiTab-root': {
-            justifyContent: 'flex-start', gap: 1.5, px: 2, py: 1.2, m: 0.1, alignItems: 'center',
-            color: '#450001', fontWeight: 500, textTransform: 'none', fontSize: '0.99rem', borderRadius: 2,
-          },
-          '& .Mui-selected': { bgcolor: '#F5F5F5', color: '#8E0000' },
-          '& .MuiTab-wrapper': { flexDirection: 'row', justifyContent: 'flex-start' },
-        }}>
+        <Tabs
+  value={tabValue}
+  onChange={handleTabChange}
+  orientation="vertical"
+  scrollButtons="auto"
+  sx={{
+    '& .MuiTab-root': {
+      justifyContent: 'flex-start',
+      gap: 2,
+      px: 3,
+      py: 0,
+      m: 0,
+      alignItems: 'center',
+      color: '#8E0000',
+      textTransform: 'none',
+      fontSize: '0.99rem',
+      borderRadius: 2,
+    },
+    '& .Mui-selected': {
+      bgcolor: '#F5F5F5',
+      color: '#8E0000',
+      fontWeight: 'bold',
+      '& svg': {
+        fontSize: '1.8rem', // Make icon appear "bold"
+      },
+      '& .MuiTab-wrapper': {
+        fontWeight: 'bold',
+      },
+    },
+    '& .MuiTab-wrapper': {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+    },
+  }}
+>
+
           <Tab icon={<ManageAccountsOutlinedIcon />} iconPosition="start" label="Manage User" />
           <Tab icon={<PersonAddAltOutlinedIcon />} iconPosition="start" label="Add User" />
           <Tab icon={<AdminPanelSettingsOutlinedIcon />} iconPosition="start" label="Account Recovery" />
