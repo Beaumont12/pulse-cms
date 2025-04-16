@@ -14,25 +14,25 @@ import { db } from '../../firebase';
 import { onValue, ref as dbRef } from 'firebase/database';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const AccountRecovery = () => {
+const SuperAdminAccountRecovery = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
   const getCurrentTab = () => {
-    if (location.pathname.includes('manage-users')) return 0;
-    if (location.pathname.includes('add-user')) return 1;
-    if (location.pathname.includes('account-recovery')) return 2; // ✅ fixed
+    if (location.pathname.includes('SuperAdminManageUsers')) return 0;
+    if (location.pathname.includes('SuperAdminAddUser')) return 1;
+    if (location.pathname.includes('SuperAdminAccountRecovery')) return 2;
     return 0;
   };
   
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
-    if (newValue === 0) navigate('/super_admin/manage-users');
-    if (newValue === 1) navigate('/super_admin/add-user');
-    if (newValue === 2) navigate('/super_admin/account-recovery'); // ✅ fixed
+    if (newValue === 0) navigate('/super_admin/SuperAdminManageUsers');
+    if (newValue === 1) navigate('/super_admin/SuperAdminAddUser');
+    if (newValue === 2) navigate('/super_admin/SuperAdminAccountRecovery'); // ✅ fixed
   };
   
   const [tabValue, setTabValue] = useState(getCurrentTab());
@@ -55,7 +55,7 @@ const AccountRecovery = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
+    <Box sx={{ display: 'flex', height: 'calc(100vh - 66px)', ml: 2 }}>
       {/* Sidebar */}
       <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee', py: 1 }}>
         <Box sx={{ p: 2 }}>
@@ -147,4 +147,4 @@ const AccountRecovery = () => {
   );
 };
 
-export default AccountRecovery;
+export default SuperAdminAccountRecovery;

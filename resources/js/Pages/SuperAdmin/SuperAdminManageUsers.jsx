@@ -14,13 +14,13 @@ import { db } from '../../firebase';
 import { onValue, ref as dbRef } from 'firebase/database';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function ManageUsers() {
+export default function SuperAdminManageUsers() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const getCurrentTab = () => {
-    if (location.pathname.includes('add-user')) return 1;
-    if (location.pathname.includes('account-recovery')) return 2;
+    if (location.pathname.includes('SuperAdminAddUser')) return 1;
+    if (location.pathname.includes('SuperAdminAccountRecovery')) return 2;
     return 0;
   };
   
@@ -30,9 +30,9 @@ export default function ManageUsers() {
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
-    if (newValue === 0) navigate('/super_admin/manage-users');
-    if (newValue === 1) navigate('/super_admin/add-user');
-    if (newValue === 2) navigate('/super_admin/account-recovery');
+    if (newValue === 0) navigate('/super_admin/SuperAdminManageUsers');
+    if (newValue === 1) navigate('/super_admin/SuperAdminAddUser');
+    if (newValue === 2) navigate('/super_admin/SuperAdminAccountRecovery');
   };
 
   useEffect(() => {
@@ -52,10 +52,10 @@ export default function ManageUsers() {
   
 
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
+    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', p:2 }}>
       {/* Sidebar */}
-      <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee', py: 1 }}>
-        <Box sx={{ p: 2 }}>
+      <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee'}}>
+        <Box sx={{ p: 1 }}>
           <Typography variant="h6" fontWeight="semi-bold" color="#450001">User Management</Typography>
           <Typography variant="caption" color="text.secondary">Manage users, roles and access</Typography>
         </Box>

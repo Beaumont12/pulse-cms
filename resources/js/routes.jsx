@@ -6,13 +6,13 @@ import Login from './Pages/Auth/Login';
 import GameRedirect from './Pages/Student/GameRedirect';
 
 import SuperAdminDashboard from './Pages/SuperAdmin/Dashboard';
-import AddUser from './Pages/SuperAdmin/AddUser';
-import ManageUsers from './Pages/SuperAdmin/ManageUsers';
-import AccountRecovery from './Pages/SuperAdmin/AccountRecovery';
+import SuperAdminAddUser from './Pages/SuperAdmin/SuperAdminAddUser';
+import SuperAdminManageUsers from './Pages/SuperAdmin/SuperAdminManageUsers';
+import SuperAdminAccountRecovery from './Pages/SuperAdmin/SuperAdminAccountRecovery';
 import ManageCourses from './Pages/Admin/ManageCourses';
 import SuperAdminUserProgress from './Pages/SuperAdmin/SuperAdminUserProgress';
 import SuperAdminQuizandCourseAnalytics from './Pages/SuperAdmin/SuperAdminQuizandCourseAnalytics';
-import FileManagement from './Pages/SuperAdmin/FileManagement';
+import SuperAdminDownloadReports from './Pages/SuperAdmin/SuperAdminDownloadReports';
 import SuperAdminLearningManagement from './Pages/SuperAdmin/SuperAdminLearningManagement';
 import SuperAdminQuestionBank from './Pages/SuperAdmin/SuperAdminquestion-bank';
 import SuperAdminCourses from './Pages/SuperAdmin/SuperAdmincourses';
@@ -40,13 +40,13 @@ export default function AppRoutes({ location }) {
     <Routes location={location}>
       {/* SUPER ADMIN ROUTES */}
       <Route path="/super_admin/dashboard" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminDashboard /></PageWrapper></ProtectedRoute>} />
-      <Route path="/super_admin/add-user" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AddUser /></PageWrapper></ProtectedRoute>} />
-      <Route path="/super_admin/manage-users" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageUsers /></PageWrapper></ProtectedRoute>} />
-      <Route path="/super_admin/account-recovery" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><AccountRecovery /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminAddUser" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminAddUser /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminManageUsers" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminManageUsers /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminAccountRecovery" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminAccountRecovery /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/manage-courses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><ManageCourses /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/SuperAdminUserProgress" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminUserProgress /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/SuperAdminQuizandCourseAnalytics" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuizandCourseAnalytics /></PageWrapper></ProtectedRoute>} />
-      <Route path="/super_admin/files" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><FileManagement /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminDownloadReports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminDownloadReports /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/SuperAdminlearning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminLearningManagement /></PageWrapper></ProtectedRoute>} />
 <Route path="/super_admin/SuperAdminquestion-bank" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuestionBank /></PageWrapper></ProtectedRoute>} />
 <Route path="/super_admin/SuperAdmincourses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminCourses /></PageWrapper></ProtectedRoute>} />

@@ -12,6 +12,8 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { AnalyticsOutlined } from '@mui/icons-material';
+import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 
 export default function SuperAdminUserProgress() {
   const navigate = useNavigate();
@@ -45,7 +47,7 @@ export default function SuperAdminUserProgress() {
         }}
       >
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
-          <Typography variant="h5" fontWeight="bold" color="#450001">
+          <Typography variant="h5" fontWeight="semi-bold" color="#450001">
             Reports & Analytics
           </Typography>
           <Typography variant="caption" color="text.secondary">
@@ -84,7 +86,7 @@ export default function SuperAdminUserProgress() {
           }}
         >
           <Tab icon={<BarChartIcon fontSize="small" />} iconPosition="start" label="User Progress Reports" />
-          <Tab icon={<AssessmentIcon fontSize="small" />} iconPosition="start" label="Quiz & Course Analytics" />
+          <Tab icon={<AnalyticsOutlinedIcon fontSize="small" />} iconPosition="start" label="Quiz & Course Analytics" />
         </Tabs>
       </Box>
 

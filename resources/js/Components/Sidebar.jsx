@@ -21,15 +21,16 @@ import {
   PlayArrowOutlined as PlayIcon,
   ClassOutlined as ClassIcon,
 } from '@mui/icons-material';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const baseItems = (role) => [
   { text: 'Dashboard', icon: <HomeIcon />, path: `/${role}/dashboard` },
-  { text: 'Users', icon: <PersonIcon />, path: `/${role}/manage-users` },
-  { text: 'Learning Management', icon: <ContentPasteIcon />, path: `/${role}/SuperAdminlearning-management` },
+  { text: 'Users', icon: <PersonIcon />, path: `/${role}/SuperAdminManageUsers` },
+  { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/SuperAdminlearning-management` },
   { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/SuperAdminUserProgress` },
-  { text: 'Files', icon: <FolderIcon />, path: `/${role}/files` },
+  { text: 'Files', icon: <FolderIcon />, path: `/${role}/SuperAdminDownloadReports` },
   { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/notifications`, hasBadge: true },
   { text: 'Settings', icon: <SettingsIcon />, path: `/${role}/settings` },
   { text: 'Help', icon: <InfoIcon />, path: `/${role}/help` },
@@ -68,8 +69,7 @@ export default function Sidebar({ expanded }) {
   const navigate = useNavigate();
   const location = useLocation();
   const role = localStorage.getItem("userRole") || 'super_admin';
-  const items = role === 'teacher' ? teacherItems : baseItems(role);
-  const SIDEBAR_WIDTH = expanded ? 300 : 80;
+  const SIDEBAR_WIDTH = expanded ? 320 : 100;
 
   return (
     <Box
@@ -77,7 +77,7 @@ export default function Sidebar({ expanded }) {
         width: SIDEBAR_WIDTH,
         height: 'calc(100vh - 64px)',
         backgroundColor: '#F9F9FC',
-        padding: expanded ? '24px 16px' : '24px 8px',
+        padding: expanded ? '26px 15px' : '24px 15px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -87,10 +87,10 @@ export default function Sidebar({ expanded }) {
         zIndex: 1200,
         overflowX: 'hidden',
         transition: 'width 0.3s ease',
-        borderRight: '1px solid #eee',
+        borderRight: 'px solid #eee',
       }}
     >
-      {role === 'teacher' && (
+      {role === 'teacher' ? (
         <>
           {teacherItems.map((group, index) => (
             <React.Fragment key={index}>
@@ -111,44 +111,54 @@ export default function Sidebar({ expanded }) {
                   </Typography>
                 )}
 
-                {group.items.map((item, itemIndex) => (
-                  <Tooltip key={itemIndex} title={!expanded ? item.text : ''} placement="right" arrow>
-                    <ListItemButton
-                      onClick={() => navigate(item.path)}
-                      selected={location.pathname === item.path}
-                      sx={{
-                        justifyContent: expanded ? 'flex-start' : 'center',
-                        px: expanded ? 2 : 0,
-                        py: 0.8,
-                        borderRadius: 2,
-                        alignItems: 'center',
-                        bgcolor: location.pathname === item.path ? '#F5F5F5' : 'transparent',
-                        color: location.pathname === item.path ? '#8E0000' : '#450001',
-                        '&:hover': { bgcolor: '#F5F5F5' },
-                        gap: expanded ? 1.5 : 0,
-                        transition: 'all 0.3s ease-in-out',
-                      }}
-                    >
-                      <ListItemIcon
+                {group.items.map((item, itemIndex) => {
+                  const isActive = location.pathname === item.path;
+                  return (
+                    <Tooltip key={itemIndex} title={!expanded ? item.text : ''} placement="right" arrow>
+                      <ListItemButton
+                        onClick={() => navigate(item.path)}
+                        selected={isActive}
                         sx={{
-                          minWidth: 0,
-                          color: 'inherit',
-                          justifyContent: 'center',
-                          display: 'flex',
+                          justifyContent: expanded ? 'flex-start' : 'center',
+                          px: expanded ? 2 : 0,
+                          py: 0.8,
+                          borderRadius: 2,
                           alignItems: 'center',
-                          mr: expanded ? 2 : 0,
-                          transition: 'margin 0.3s ease',
+                          bgcolor: isActive ? '#F5F5F5' : 'transparent',
+                          color: isActive ? '#8E0000' : '#450001',
+                          '&:hover': { bgcolor: '#F5F5F5' },
+                          gap: expanded ? 1.5 : 0,
+                          transition: 'all 0.3s ease-in-out',
                         }}
                       >
-                        {item.icon}
-                      </ListItemIcon>
-                      {expanded && <ListItemText primary={item.text} />}
-                    </ListItemButton>
-                  </Tooltip>
-                ))}
-              </Box>
+                        <ListItemIcon
+  sx={{
+    minWidth: 0,
+    color: 'inherit',
+    justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    mr: expanded ? 2 : 0,
+    transition: 'all 0.2s ease',
+    fontSize: isActive ? '1.8rem' : '1.5rem', // 👈 simulate "bold" by size
+  }}
+>
+  {item.icon}
+</ListItemIcon>
 
-              {/* Divider shown only in collapsed view, except after the last group */}
+                        {expanded && (
+                          <ListItemText
+                            primary={item.text}
+                            primaryTypographyProps={{
+                              fontWeight: isActive ? 'semi-bold' : 'regular',
+                            }}
+                          />
+                        )}
+                      </ListItemButton>
+                    </Tooltip>
+                  );
+                })}
+              </Box>
               {!expanded && index < teacherItems.length - 1 && (
                 <Box
                   sx={{
@@ -162,17 +172,13 @@ export default function Sidebar({ expanded }) {
               )}
             </React.Fragment>
           ))}
-
         </>
-      )}
-
-      {role !== 'teacher' && (() => {
-        const topItems = baseItems(role).slice(0, 5); // Dashboard to Files
-        const bottomItems = baseItems(role).slice(5); // Notifications to Help
+      ) : (() => {
+        const topItems = baseItems(role).slice(0, 5);
+        const bottomItems = baseItems(role).slice(5);
 
         return (
           <>
-            {/* TOP ICONS */}
             <List sx={{ gap: 0.5 }}>
               {topItems.map((item, index) => {
                 const isActive = location.pathname === item.path;
@@ -206,15 +212,21 @@ export default function Sidebar({ expanded }) {
                       >
                         {item.icon}
                       </ListItemIcon>
-                      {expanded && <ListItemText primary={item.text} />}
+                      {expanded && (
+                        <ListItemText
+                          primary={item.text}
+                          primaryTypographyProps={{
+                            fontWeight: isActive ? 'bold' : 'normal',
+                          }}
+                        />
+                      )}
                     </ListItemButton>
                   </Tooltip>
                 );
               })}
             </List>
 
-            {/* BOTTOM ICONS */}
-            <Box sx={{ flexGrow: 1 }} /> {/* pushes the bottom items down */}
+            <Box sx={{ flexGrow: 1 }} />
             <List sx={{ gap: 0.5, mb: 2 }}>
               {bottomItems.map((item, index) => {
                 const isActive = location.pathname === item.path;
@@ -248,7 +260,14 @@ export default function Sidebar({ expanded }) {
                       >
                         {item.icon}
                       </ListItemIcon>
-                      {expanded && <ListItemText primary={item.text} />}
+                      {expanded && (
+                        <ListItemText
+                          primary={item.text}
+                          primaryTypographyProps={{
+                            fontWeight: isActive ? 'bold' : 'normal',
+                          }}
+                        />
+                      )}
                     </ListItemButton>
                   </Tooltip>
                 );

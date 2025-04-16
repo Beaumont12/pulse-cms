@@ -54,7 +54,7 @@ export default function SuperAdminLearningManagement() {
         py: 2,
       }}>
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
-          <Typography variant="h6" fontWeight="bold" color="#450001">
+          <Typography variant="h6" fontWeight="semi-bold" color="#450001">
             Learning Management
           </Typography>
           <Typography variant="caption" color="text.secondary">

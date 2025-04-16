@@ -7,6 +7,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 
 import {
   LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer
@@ -105,7 +106,7 @@ export default function SuperAdminQuizandCourseAnalytics() {
           }}
         >
           <Tab icon={<BarChartIcon />} iconPosition="start" label="User Progress Reports" />
-          <Tab icon={<AssessmentIcon />} iconPosition="start" label="Quiz & Course Analytics" />
+          <Tab icon={<AnalyticsOutlinedIcon />} iconPosition="start" label="Quiz & Course Analytics" />
         </Tabs>
       </Box>
 

@@ -17,23 +17,23 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { ref as dbRef, set } from 'firebase/database';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const AddUser = () => {
+const SuperAdminAddUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const getCurrentTab = () => {
-    if (location.pathname.includes('manage-users')) return 0;
-    if (location.pathname.includes('add-user')) return 1;
-    if (location.pathname.includes('account-recovery')) return 2;
+    if (location.pathname.includes('SuperAdminManageUsers')) return 0;
+    if (location.pathname.includes('SuperAdminAddUser')) return 1;
+    if (location.pathname.includes('SuperAdminAccountRecovery')) return 2;
     return 0;
   };
 
   const [tabValue, setTabValue] = useState(getCurrentTab());
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
-    if (newValue === 0) navigate('/super_admin/manage-users');
-    if (newValue === 1) navigate('/super_admin/add-user');
-    if (newValue === 2) navigate('/super_admin/account-recovery');
+    if (newValue === 0) navigate('/super_admin/SuperAdminManageUsers');
+    if (newValue === 1) navigate('/super_admin/SuperAdminAddUser');
+    if (newValue === 2) navigate('/super_admin/SuperAdminAccountRecovery');
   };
 
   const [formData, setFormData] = useState({
@@ -94,7 +94,7 @@ const AddUser = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
+    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', p:2 }}>
       {/* Sidebar Tabs */}
       <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee', display: 'flex', flexDirection: 'column', py: 1 }}>
         <Box sx={{ mb: 2, mt: 1, p: 2 }}>
@@ -164,4 +164,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default SuperAdminAddUser;

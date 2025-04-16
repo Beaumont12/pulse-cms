@@ -5,8 +5,9 @@ import {
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 
-export default function FileManagement() {
+export default function SuperAdminDownloadReports() {
   const [tabValue, setTabValue] = useState(0);
   const tabLabels = ['Downloadable Reports', 'Upload Learning Materials'];
 
@@ -28,7 +29,7 @@ export default function FileManagement() {
       }}>
         {/* Title + Subtitle */}
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
-          <Typography variant="h5" fontWeight="bold" color="#450001">
+          <Typography variant="h6" fontWeight="semi-bold" color="#450001">
             Content and File Management
           </Typography>
           <Typography variant="caption" color="text.secondary">
@@ -66,8 +67,7 @@ export default function FileManagement() {
             },
           }}
         >
-          <Tab icon={<FileDownloadIcon fontSize="small" />} iconPosition="start" label="Downloadable Reports" />
-          <Tab icon={<CloudUploadIcon fontSize="small" />} iconPosition="start" label="Upload Learning Materials" />
+          <Tab icon={<DownloadOutlinedIcon fontSize="small" />} iconPosition="start" label="Downloadable Reports" />
         </Tabs>
       </Box>
 
