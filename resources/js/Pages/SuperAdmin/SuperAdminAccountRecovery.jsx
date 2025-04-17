@@ -57,7 +57,7 @@ const SuperAdminAccountRecovery = () => {
   return (
     <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', p:2 }}>
     {/* Sidebar */}
-    <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee'}}>
+    <Box sx={{ width: 340, backgroundColor: '#fff', borderRight: '1px solid #eee'}}>
       <Box sx={{ p: 1 }}>
         <Typography variant="h6" fontWeight="semi-bold" color="#450001" ml={2} mt={1}>User Management</Typography>
         <Typography variant="caption" color="text.secondary" ml={2}>Manage users, roles and access</Typography>

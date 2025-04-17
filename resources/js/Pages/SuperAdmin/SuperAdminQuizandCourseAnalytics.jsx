@@ -57,18 +57,11 @@ export default function SuperAdminQuizandCourseAnalytics() {
   const handleClose = () => setAnchorEl(null);
 
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
-      {/* Sidebar */}
-      <Box sx={{
-        width: 280,
-        backgroundColor: '#fff',
-        borderRight: '1px solid #eee',
-        display: 'flex',
-        flexDirection: 'column',
-        py: 2,
-      }}>
+    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', p:2 }}>
+             {/* Sidebar */}
+             <Box sx={{ width: 340, backgroundColor: '#fff', borderRight: '1px solid #eee'}}>
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
-          <Typography variant="h6" fontWeight="bold" color="#450001">
+          <Typography variant="h6" fontWeight="semi-bold" color="#450001">
             Report and Analytics
           </Typography>
           <Typography variant="caption" color="text.secondary">
@@ -76,35 +69,41 @@ export default function SuperAdminQuizandCourseAnalytics() {
           </Typography>
         </Box>
 
-        <Tabs
-          value={tabValue}
-          onChange={handleTabChange}
-          orientation="vertical"
-          scrollButtons="auto"
-          sx={{
-            '& .MuiTab-root': {
-              justifyContent: 'flex-start',
-              gap: 1.5,
-              px: 2,
-              py: 1.2,
-              alignItems: 'center',
-              color: '#450001',
-              fontWeight: 500,
-              textTransform: 'none',
-              fontSize: '0.95rem',
-              borderRadius: 2,
-            },
-            '& .Mui-selected': {
-              bgcolor: '#F5F5F5',
-              color: '#8E0000',
-            },
-            '& .MuiTab-wrapper': {
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              textAlign: 'left',
-            },
-          }}
-        >
+         <Tabs
+                 value={tabValue}
+                 onChange={handleTabChange}
+                 orientation="vertical"
+                 scrollButtons="auto"
+                 sx={{
+                   '& .MuiTab-root': {
+                     justifyContent: 'flex-start',
+                     gap: 2,
+                     px: 3,
+                     py: 0,
+                     m: 0,
+                     alignItems: 'center',
+                     color: '#8E0000',
+                     textTransform: 'none',
+                     fontSize: '0.99rem',
+                     borderRadius: 2,
+                   },
+                   '& .Mui-selected': {
+                     bgcolor: '#F5F5F5',
+                     color: '#8E0000',
+                     fontWeight: 'bold',
+                     '& svg': {
+                       fontSize: '1.8rem', // Make icon appear "bold"
+                     },
+                     '& .MuiTab-wrapper': {
+                       fontWeight: 'bold',
+                     },
+                   },
+                   '& .MuiTab-wrapper': {
+                     flexDirection: 'row',
+                     justifyContent: 'flex-start',
+                   },
+                 }}
+               >
           <Tab icon={<BarChartIcon />} iconPosition="start" label="User Progress Reports" />
           <Tab icon={<AnalyticsOutlinedIcon />} iconPosition="start" label="Quiz & Course Analytics" />
         </Tabs>

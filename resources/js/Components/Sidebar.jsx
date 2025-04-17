@@ -31,9 +31,9 @@ const baseItems = (role) => [
   { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/SuperAdminQuizzes` },
   { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/SuperAdminUserProgress` },
   { text: 'Files', icon: <FolderIcon />, path: `/${role}/SuperAdminDownloadReports` },
-  { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/notifications`, hasBadge: true },
-  { text: 'Settings', icon: <SettingsIcon />, path: `/${role}/settings` },
-  { text: 'Help', icon: <InfoIcon />, path: `/${role}/help` },
+  { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/SuperAdminNotifications`, hasBadge: true },
+  { text: 'Settings', icon: <SettingsIcon />, path: `/${role}/SuperAdminSettings` },
+  { text: 'Help', icon: <InfoIcon />, path: `/${role}/SuperAdminHelp` },
 ];
 
 const teacherItems = [
