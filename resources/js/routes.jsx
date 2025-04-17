@@ -13,9 +13,9 @@ import ManageCourses from './Pages/Admin/ManageCourses';
 import SuperAdminUserProgress from './Pages/SuperAdmin/SuperAdminUserProgress';
 import SuperAdminQuizandCourseAnalytics from './Pages/SuperAdmin/SuperAdminQuizandCourseAnalytics';
 import SuperAdminDownloadReports from './Pages/SuperAdmin/SuperAdminDownloadReports';
-import SuperAdminLearningManagement from './Pages/SuperAdmin/SuperAdminLearningManagement';
-import SuperAdminQuestionBank from './Pages/SuperAdmin/SuperAdminquestion-bank';
-import SuperAdminCourses from './Pages/SuperAdmin/SuperAdmincourses';
+import SuperAdminQuizzes from './Pages/SuperAdmin/SuperAdminQuizzes';
+import SuperAdminQuestionBank from './Pages/SuperAdmin/SuperAdminQuestionBank';
+import SuperAdminCourses from './Pages/SuperAdmin/SuperAdminCourses';
 import Notifications from './Pages/SuperAdmin/Notifications';
 import Settings from './Pages/SuperAdmin/Settings';
 import Help from './Pages/SuperAdmin/Help';
@@ -47,9 +47,9 @@ export default function AppRoutes({ location }) {
       <Route path="/super_admin/SuperAdminUserProgress" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminUserProgress /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/SuperAdminQuizandCourseAnalytics" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuizandCourseAnalytics /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/SuperAdminDownloadReports" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminDownloadReports /></PageWrapper></ProtectedRoute>} />
-      <Route path="/super_admin/SuperAdminlearning-management" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminLearningManagement /></PageWrapper></ProtectedRoute>} />
-<Route path="/super_admin/SuperAdminquestion-bank" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuestionBank /></PageWrapper></ProtectedRoute>} />
-<Route path="/super_admin/SuperAdmincourses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminCourses /></PageWrapper></ProtectedRoute>} />
+      <Route path="/super_admin/SuperAdminQuizzes" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuizzes /></PageWrapper></ProtectedRoute>} />
+<Route path="/super_admin/SuperAdminQuestionBank" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminQuestionBank /></PageWrapper></ProtectedRoute>} />
+<Route path="/super_admin/SuperAdminCourses" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><SuperAdminCourses /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/notifications" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Notifications /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/settings" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Settings /></PageWrapper></ProtectedRoute>} />
       <Route path="/super_admin/help" element={<ProtectedRoute allowedRoles={['super_admin']}><PageWrapper><Help /></PageWrapper></ProtectedRoute>} />

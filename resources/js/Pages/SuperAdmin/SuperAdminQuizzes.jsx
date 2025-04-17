@@ -17,13 +17,13 @@ import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function SuperAdminLearningManagement() {
+export default function SuperAdminQuizzes() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const getCurrentTab = () => {
-    if (location.pathname.includes('SuperAdminquestion-bank')) return 1;
-    if (location.pathname.includes('SuperAdmincourses')) return 2;
+    if (location.pathname.includes('SuperAdminQuestionBank')) return 1;
+    if (location.pathname.includes('SuperAdminCourses')) return 2;
     return 0;
   };
 
@@ -33,9 +33,9 @@ export default function SuperAdminLearningManagement() {
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
-    if (newValue === 0) navigate('/super_admin/SuperAdminlearning-management');
-    if (newValue === 1) navigate('/super_admin/SuperAdminquestion-bank');
-    if (newValue === 2) navigate('/super_admin/SuperAdmincourses');
+    if (newValue === 0) navigate('/super_admin/SuperAdminQuizzes');
+    if (newValue === 1) navigate('/super_admin/SuperAdminQuestionBank');
+    if (newValue === 2) navigate('/super_admin/SuperAdminCourses');
   };
 
   useEffect(() => {
@@ -43,16 +43,9 @@ export default function SuperAdminLearningManagement() {
   }, [location.pathname]);
 
   return (
-    <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
-      {/* Sidebar */}
-      <Box sx={{
-        width: 280,
-        backgroundColor: '#fff',
-        borderRight: '1px solid #eee',
-        display: 'flex',
-        flexDirection: 'column',
-        py: 2,
-      }}>
+     <Box sx={{ display: 'flex', height: 'calc(100vh - 64px)', p:2 }}>
+          {/* Sidebar */}
+          <Box sx={{ width: 280, backgroundColor: '#fff', borderRight: '1px solid #eee'}}>
         <Box sx={{ mb: 2, mt: 2, p: 2 }}>
           <Typography variant="h6" fontWeight="semi-bold" color="#450001">
             Learning Management
@@ -61,37 +54,41 @@ export default function SuperAdminLearningManagement() {
             Manage downloadable content and uploaded resources
           </Typography>
         </Box>
-
         <Tabs
-          value={tabValue}
-          onChange={handleTabChange}
-          orientation="vertical"
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            '& .MuiTab-root': {
-              justifyContent: 'flex-start',
-              gap: 1.5,
-              px: 2,
-              py: 1.2,
-              alignItems: 'center',
-              color: '#450001',
-              fontWeight: 500,
-              textTransform: 'none',
-              fontSize: '0.95rem',
-              borderRadius: 2,
-            },
-            '& .Mui-selected': {
-              bgcolor: '#F5F5F5',
-              color: '#8E0000',
-            },
-            '& .MuiTab-wrapper': {
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              textAlign: 'left',
-            },
-          }}
-        >
+         value={tabValue}
+         onChange={handleTabChange}
+         orientation="vertical"
+         scrollButtons="auto"
+         sx={{
+           '& .MuiTab-root': {
+             justifyContent: 'flex-start',
+             gap: 2,
+             px: 3,
+             py: 0,
+             m: 0,
+             alignItems: 'center',
+             color: '#8E0000',
+             textTransform: 'none',
+             fontSize: '0.99rem',
+             borderRadius: 2,
+           },
+           '& .Mui-selected': {
+             bgcolor: '#F5F5F5',
+             color: '#8E0000',
+             fontWeight: 'bold',
+             '& svg': {
+               fontSize: '1.8rem', // Make icon appear "bold"
+             },
+             '& .MuiTab-wrapper': {
+               fontWeight: 'bold',
+             },
+           },
+           '& .MuiTab-wrapper': {
+             flexDirection: 'row',
+             justifyContent: 'flex-start',
+           },
+         }}
+       >
           <Tab icon={<AssignmentOutlinedIcon fontSize="small" />} iconPosition="start" label="Quizzes" />
           <Tab icon={<QuizOutlinedIcon fontSize="small" />} iconPosition="start" label="Question Bank" />
           <Tab icon={<LocalLibraryOutlinedIcon fontSize="small" />} iconPosition="start" label="Courses" />

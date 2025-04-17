@@ -28,7 +28,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const baseItems = (role) => [
   { text: 'Dashboard', icon: <HomeIcon />, path: `/${role}/dashboard` },
   { text: 'Users', icon: <PersonIcon />, path: `/${role}/SuperAdminManageUsers` },
-  { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/SuperAdminlearning-management` },
+  { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/SuperAdminQuizzes` },
   { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/SuperAdminUserProgress` },
   { text: 'Files', icon: <FolderIcon />, path: `/${role}/SuperAdminDownloadReports` },
   { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/notifications`, hasBadge: true },
