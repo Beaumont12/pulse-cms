@@ -1,170 +1,305 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  Box, Button, TextField, Typography, MenuItem, CircularProgress
-} from '@mui/material';
+  Box,
+  Typography,
+  Tabs,
+  Tab,
+  Paper,
+  TextField,
+  Switch,
+  FormControlLabel,
+  Divider,
+  Snackbar,
+  Alert,
+  Button,
+  Breadcrumbs,
+  Link,
+} from "@mui/material";
 
-import { auth, db, storage } from '../../firebase'; // ✅ correct path
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { ref as dbRef, set } from 'firebase/database';
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import SecurityIcon from "@mui/icons-material/Security";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import HistoryIcon from "@mui/icons-material/History";
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
+import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
 
-const AddUser = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    role: '',
-    photo: null,
+const SuperAdminSettings = () => {
+  const [selectedSection, setSelectedSection] = useState(0);
+  const [autoLogoutTime, setAutoLogoutTime] = useState(15);
+  const [darkMode, setDarkMode] = useState(false);
+  const [moduleAccess, setModuleAccess] = useState({
+    quizzes: true,
+    reports: true,
+    analytics: true,
+    leaderboard: false,
   });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState('');
+  const sectionLabels = [
+    "Role & Access Management",
+    "Auto Logout Timer",
+    "Audit Logs",
+    "Email Settings",
+    "Theme Options",
+    "Manage Plugins/Modules",
+  ];
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
+  const sectionIcons = [
+    <SecurityIcon />,
+    <AccessTimeIcon />,
+    <HistoryIcon />,
+    <EmailOutlinedIcon />,
+    <ColorLensOutlinedIcon />,
+    <ExtensionOutlinedIcon />,
+  ];
 
-    if (name === 'photo') {
-      const file = files[0];
-      setFormData({ ...formData, photo: file });
-      setPreview(URL.createObjectURL(file));
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+
+  const handleSave = () => {
+    console.log("Saved settings:", {
+      autoLogoutTime,
+      darkMode,
+      moduleAccess,
+    });
+    setOpenSnackbar(true);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      // 1. Create user in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-      const uid = userCredential.user.uid;
-
-      // 2. Upload photo if selected
-      let photoURL = '';
-      if (formData.photo) {
-        const path = `avatars/${uid}/${formData.photo.name}`;
-        const imageRef = storageRef(storage, path);
-        await uploadBytes(imageRef, formData.photo);
-        photoURL = await getDownloadURL(imageRef);
-      }
-
-      // 3. Save user to Realtime Database
-      const userRef = dbRef(db, `users/${uid}`);
-      await set(userRef, {
-        name: formData.name,
-        email: formData.email,
-        role: formData.role,
-        photoURL,
-      });
-
-      alert('✅ User successfully added!');
-      setFormData({ name: '', email: '', password: '', role: '', photo: null });
-      setPreview('');
-    } catch (err) {
-      console.error(err);
-      alert('❌ Failed to add user: ' + err.message);
-    } finally {
-      setLoading(false);
+  const renderSection = () => {
+    switch (selectedSection) {
+      case 0:
+        return (
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" mb={2}>
+              Role & Access Management
+            </Typography>
+            {Object.entries(moduleAccess).map(([key, value]) => (
+              <FormControlLabel
+                key={key}
+                control={
+                  <Switch
+                    checked={value}
+                    onChange={(e) =>
+                      setModuleAccess({
+                        ...moduleAccess,
+                        [key]: e.target.checked,
+                      })
+                    }
+                  />
+                }
+                label={`Allow access to ${key.charAt(0).toUpperCase() + key.slice(1)}`}
+                sx={{ display: "block", mb: 1 }}
+              />
+            ))}
+          </Paper>
+        );
+      case 1:
+        return (
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" mb={2}>
+              Auto Logout Timer
+            </Typography>
+            <TextField
+              label="Idle Time Limit (minutes)"
+              type="number"
+              fullWidth
+              value={autoLogoutTime}
+              onChange={(e) => setAutoLogoutTime(Number(e.target.value))}
+            />
+          </Paper>
+        );
+      case 2:
+        return (
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" mb={2}>
+              Audit Logs
+            </Typography>
+            <Typography variant="body2">
+              • User "admin" added a new course (2025-04-17)<br />
+              • User "mod" updated quiz #14 (2025-04-16)
+            </Typography>
+          </Paper>
+        );
+      case 3:
+        return (
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" mb={2}>
+              Email Settings
+            </Typography>
+            <TextField label="System Email" fullWidth sx={{ mb: 2 }} />
+            <TextField
+              label="Default Template"
+              fullWidth
+              multiline
+              rows={4}
+              placeholder="Enter your default email message..."
+            />
+          </Paper>
+        );
+      case 4:
+        return (
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" mb={2}>
+              Theme Options
+            </Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={darkMode}
+                  onChange={(e) => setDarkMode(e.target.checked)}
+                />
+              }
+              label="Enable Dark Mode"
+            />
+          </Paper>
+        );
+      case 5:
+        return (
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" mb={2}>
+              Manage Plugins / Modules
+            </Typography>
+            {["Analytics", "Leaderboard", "Reports"].map((plugin) => (
+              <FormControlLabel
+                key={plugin}
+                control={
+                  <Switch
+                    checked={moduleAccess[plugin.toLowerCase()] ?? false}
+                    onChange={(e) =>
+                      setModuleAccess({
+                        ...moduleAccess,
+                        [plugin.toLowerCase()]: e.target.checked,
+                      })
+                    }
+                  />
+                }
+                label={`Enable ${plugin}`}
+                sx={{ display: "block", mb: 1 }}
+              />
+            ))}
+          </Paper>
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <Box
-      sx={{
-        maxWidth: 500,
-        mx: 'auto',
-        mt: 6,
-        p: 4,
-        bgcolor: '#fff',
-        borderRadius: 2,
-        boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
-      }}
-    >
-      <form onSubmit={handleSubmit}>
-        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mb: 1 }}>
-          Name
-        </Typography>
-        <TextField
-          fullWidth placeholder="Full Name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          margin="dense"
-        />
+    <Box sx={{ display: "flex", height: "calc(100vh - 64px)", p: 2 }}>
+      {/* Sidebar */}
+      <Box
+        sx={{
+          width: 320,
+          backgroundColor: "#fff",
+          borderRight: "1px solid #eee",
+        }}
+      >
+        <Box sx={{ mb: 2, mt: 2, px: 3 }}>
+          <Typography variant="h6" fontWeight="semi-bold" color="#450001">
+            Settings
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            Manage access, modules, and UI settings
+          </Typography>
+        </Box>
 
-        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
-          Email
-        </Typography>
-        <TextField
-          fullWidth placeholder="Email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          margin="dense"
-        />
-
-        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
-          Password
-        </Typography>
-        <TextField
-          fullWidth placeholder="Password"
-          name="password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-          margin="dense"
-        />
-
-        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
-          Role
-        </Typography>
-        <TextField
-          fullWidth select name="role"
-          value={formData.role}
-          onChange={handleChange}
-          margin="dense"
-        >
-          <MenuItem value="admin">Admin</MenuItem>
-          <MenuItem value="teacher">Teacher</MenuItem>
-          <MenuItem value="student">Student</MenuItem>
-        </TextField>
-
-        <Typography variant="subtitle1" fontWeight="bold" color="#450001" sx={{ mt: 2, mb: 1 }}>
-          Profile Picture
-        </Typography>
-        <Button variant="contained" component="label" sx={{ mb: 1 }}>
-          Upload Image
-          <input type="file" hidden name="photo" accept="image/*" onChange={handleChange} />
-        </Button>
-
-        {preview && (
-          <Box mt={1}>
-            <img src={preview} alt="Preview" style={{ width: 100, height: 100, borderRadius: '50%' }} />
-          </Box>
-        )}
-
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth
-          disabled={loading}
+        <Tabs
+          value={selectedSection}
+          onChange={(e, newVal) => setSelectedSection(newVal)}
+          orientation="vertical"
+          variant="scrollable"
+          scrollButtons="auto"
           sx={{
-            mt: 4,
-            bgcolor: '#8E0000',
-            '&:hover': { backgroundColor: '#660200' },
-            textTransform: 'none',
-            fontWeight: 'bold',
-            fontSize: '1rem',
+            "& .MuiTabs-indicator": { display: "none" },
+            "& .MuiTab-root": {
+              justifyContent: "flex-start",
+              gap: 2,
+              px: 3,
+              py: 1.5,
+              m: 0,
+              alignItems: "center",
+              color: "#8E0000",
+              textTransform: "none",
+              fontSize: "0.99rem",
+              borderRadius: 0,
+              textAlign: "left",
+              "&:hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            },
+            "& .Mui-selected": {
+              bgcolor: "#F5F5F5",
+              color: "#450001",
+              fontWeight: "bold",
+              borderRight: "3px solid #8E0000",
+              "& svg": {
+                fontSize: "1.5rem",
+              },
+              "& .MuiTab-wrapper": {
+                fontWeight: "bold",
+              },
+            },
+            "& .MuiTab-wrapper": {
+              flexDirection: "row",
+              justifyContent: "flex-start",
+            },
           }}
         >
-          {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Save User'}
+          {sectionLabels.map((label, index) => (
+            <Tab
+              key={label}
+              icon={sectionIcons[index]}
+              iconPosition="start"
+              label={label}
+            />
+          ))}
+        </Tabs>
+      </Box>
+
+      {/* Main Content */}
+      <Box sx={{ flexGrow: 1, pl: 4 }}>
+        {/* Breadcrumbs */}
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+          sx={{ mb: 3, mt: 2 }}
+        >
+          <Link underline="hover" color="inherit" href="#">
+            Settings
+          </Link>
+          <Typography color="text.primary">
+            {sectionLabels[selectedSection]}
+          </Typography>
+        </Breadcrumbs>
+
+        {renderSection()}
+
+        <Divider sx={{ my: 3 }} />
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "#8E0000", textTransform: "none" }}
+          onClick={handleSave}
+        >
+          Save Settings
         </Button>
-      </form>
+      </Box>
+
+      {/* Snackbar */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setOpenSnackbar(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Settings saved successfully!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
 
-export default AddUser;
+export default SuperAdminSettings;
