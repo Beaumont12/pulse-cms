@@ -106,10 +106,16 @@ sx={{
 
       {/* Main Content */}
       <Box sx={{ flexGrow: 1, p: 4 }}>
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }}>
-          <Link underline="hover" color="inherit" href="#">User Management</Link>
-          <Typography color="#8E0000" fontWeight="bold">Password Resets & Account Recovery</Typography>
-        </Breadcrumbs>
+      <Breadcrumbs
+                    separator={<NavigateNextIcon fontSize="small" />}
+                    sx={{ mb: 4 }}
+                >
+                    <Link underline="hover" color="inherit" href="#">
+                        User Management
+                    </Link>
+                    <Typography color="text.primary">Password Reset and Recovery</Typography>
+                </Breadcrumbs>
+
 
         <Grid container spacing={2}>
           <Grid item xs={12} md={5}>
