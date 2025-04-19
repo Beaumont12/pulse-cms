@@ -21,8 +21,19 @@ import SuperAdminSystemMessages from "./Pages/SuperAdmin/SuperAdminSystemMessage
 import SuperAdminSettings from "./Pages/SuperAdmin/SuperAdminSettings";
 import SuperAdminHelp from "./Pages/SuperAdmin/SuperAdminHelp";
 
-import AdminDashboard from "./Pages/Admin/Dashboard";
-import ManageCourses from "./Pages/Admin/ManageCourses";
+import AdminDashboard from "./Pages/Admin/AdminDashboard";
+import AdminManageUsers from "./Pages/Admin/AdminManageUsers";
+import AdminAddUser from "./Pages/Admin/AdminAddUser";
+import AdminAccountRecovery from "./Pages/Admin/AdminAccountRecovery";
+import AdminQuizzes from "./Pages/Admin/AdminQuizzes";
+import AdminQuestionBank from "./Pages/Admin/AdminQuestionBank";
+import AdminCourses from "./Pages/Admin/AdminCourses";
+import AdminDownloadReports from "./Pages/Admin/AdminDownloadReports";
+import AdminUserProgress from "./Pages/Admin/AdminUserProgress";
+import AdminQuizandCourseAnalytics from "./Pages/Admin/AdminQuizandCourseAnalytics";
+import AdminNotifications from "./Pages/Admin/AdminNotifications";
+import AdminSettings from "./Pages/Admin/AdminSettings";
+import AdminHelp from "./Pages/Admin/AdminHelp";
 
 import TeacherDashboard from "./Pages/Teacher/Dashboard";
 import Quizzes from "./Pages/Teacher/Quizzes";
@@ -41,7 +52,7 @@ export default function AppRoutes({ location }) {
         <Routes location={location}>
             {/* SUPER ADMIN ROUTES */}
             <Route
-                path="/super_admin/dashboard"
+                path="/super_admin/SuperAdminDashboard"
                 element={
                     <ProtectedRoute allowedRoles={["super_admin"]}>
                         <PageWrapper>
@@ -81,11 +92,11 @@ export default function AppRoutes({ location }) {
                 }
             />
             <Route
-                path="/super_admin/manage-courses"
+                path="/super_admin/SuoerAdminCourses"
                 element={
                     <ProtectedRoute allowedRoles={["super_admin"]}>
                         <PageWrapper>
-                            <ManageCourses />
+                            <SuperAdminCourses />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
@@ -203,15 +214,136 @@ export default function AppRoutes({ location }) {
 
             {/* ADMIN ROUTE */}
             <Route
-                path="/admin/dashboard"
+                path="/admin/AdminDashboard"
                 element={
                     <ProtectedRoute allowedRoles={["admin"]}>
                         <PageWrapper>
-                            <AdminDashboard />
+                            <AdminDashboard/>
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
+             <Route
+                path="/admin/AdminDownloadReports"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminDownloadReports/>
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminHelp"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminHelp />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminManageUsers"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminManageUsers />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/admin/AdminAddUser"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminAddUser />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/admin/AdminAccountRecovery"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminAccountRecovery />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminNotifications"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminNotifications />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminQuizzes"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminQuizzes />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminQuestionBank"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminQuestionBank />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminCourses"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminCourses />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminSettings"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminSettings />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminUserProgress"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminUserProgress />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+             <Route
+                path="/admin/AdminQuizandCourseAnalytics"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminQuizandCourseAnalytics />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+        
 
             {/* TEACHER ROUTES */}
             <Route

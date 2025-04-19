@@ -50,7 +50,15 @@ const baseItems = (role) => {
   const p = paths[role] || paths.super_admin;
 
   return [
-    { text: 'Dashboard', icon: <HomeIcon />, path: `/${role}/dashboard` },
+    {
+      text: 'Dashboard',
+      icon: <HomeIcon />,
+      path: role === 'admin'
+        ? '/admin/AdminDashboard'
+        : role === 'super_admin'
+        ? '/super_admin/SuperAdminDashboard'
+        : `/${role}/dashboard`
+    },    
     { text: 'Users', icon: <PersonIcon />, path: `/${role}/${p.Users}` },
     { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/${p.Learning}` },
     { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/${p.Reports}` },
