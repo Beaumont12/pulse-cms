@@ -25,16 +25,41 @@ import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const baseItems = (role) => [
-  { text: 'Dashboard', icon: <HomeIcon />, path: `/${role}/dashboard` },
-  { text: 'Users', icon: <PersonIcon />, path: `/${role}/SuperAdminManageUsers` },
-  { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/SuperAdminQuizzes` },
-  { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/SuperAdminUserProgress` },
-  { text: 'Files', icon: <FolderIcon />, path: `/${role}/SuperAdminDownloadReports` },
-  { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/SuperAdminNotifications`, hasBadge: true },
-  { text: 'Settings', icon: <SettingsIcon />, path: `/${role}/SuperAdminSettings` },
-  { text: 'Help', icon: <InfoIcon />, path: `/${role}/SuperAdminHelp` },
-];
+const baseItems = (role) => {
+  const paths = {
+    super_admin: {
+      Users: 'SuperAdminManageUsers',
+      Learning: 'SuperAdminQuizzes',
+      Reports: 'SuperAdminUserProgress',
+      Files: 'SuperAdminDownloadReports',
+      Notifications: 'SuperAdminNotifications',
+      Settings: 'SuperAdminSettings',
+      Help: 'SuperAdminHelp',
+    },
+    admin: {
+      Users: 'AdminManageUsers',
+      Learning: 'AdminQuizzes',
+      Reports: 'AdminUserProgress',
+      Files: 'AdminDownloadReports',
+      Notifications: 'AdminNotifications',
+      Settings: 'AdminSettings',
+      Help: 'AdminHelp',
+    },
+  };
+
+  const p = paths[role] || paths.super_admin;
+
+  return [
+    { text: 'Dashboard', icon: <HomeIcon />, path: `/${role}/dashboard` },
+    { text: 'Users', icon: <PersonIcon />, path: `/${role}/${p.Users}` },
+    { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/${p.Learning}` },
+    { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/${p.Reports}` },
+    { text: 'Files', icon: <FolderIcon />, path: `/${role}/${p.Files}` },
+    { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/${p.Notifications}`, hasBadge: true },
+    { text: 'Settings', icon: <SettingsIcon />, path: `/${role}/${p.Settings}` },
+    { text: 'Help', icon: <InfoIcon />, path: `/${role}/${p.Help}` },
+  ];
+};
 
 const teacherItems = [
   {
@@ -132,19 +157,18 @@ export default function Sidebar({ expanded }) {
                         }}
                       >
                         <ListItemIcon
-  sx={{
-    minWidth: 0,
-    color: 'inherit',
-    justifyContent: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    mr: expanded ? 2 : 0,
-    transition: 'all 0.2s ease',
-    fontSize: isActive ? '1.8rem' : '1.5rem', // 👈 simulate "bold" by size
-  }}
->
-  {item.icon}
-</ListItemIcon>
+                          sx={{
+                            minWidth: 0,
+                            color: 'inherit',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            alignItems: 'center',
+                            mr: expanded ? 2 : 0,
+                            fontSize: isActive ? '1.8rem' : '1.5rem',
+                          }}
+                        >
+                          {item.icon}
+                        </ListItemIcon>
 
                         {expanded && (
                           <ListItemText
@@ -173,110 +197,113 @@ export default function Sidebar({ expanded }) {
             </React.Fragment>
           ))}
         </>
-      ) : (() => {
-        const topItems = baseItems(role).slice(0, 5);
-        const bottomItems = baseItems(role).slice(5);
+      ) : (
+        (() => {
+          const items = baseItems(role);
+          const topItems = items.slice(0, 5);
+          const bottomItems = items.slice(5);
 
-        return (
-          <>
-            <List sx={{ gap: 0.5 }}>
-              {topItems.map((item, index) => {
-                const isActive = location.pathname === item.path;
-                return (
-                  <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
-                    <ListItemButton
-                      onClick={() => navigate(item.path)}
-                      selected={isActive}
-                      sx={{
-                        justifyContent: expanded ? 'flex-start' : 'center',
-                        px: expanded ? 2 : 0,
-                        py: 0.8,
-                        borderRadius: 2,
-                        alignItems: 'center',
-                        bgcolor: isActive ? '#F5F5F5' : 'transparent',
-                        color: isActive ? '#8E0000' : '#450001',
-                        '&:hover': { bgcolor: '#F5F5F5' },
-                        gap: expanded ? 1.5 : 0,
-                        transition: 'all 0.3s ease-in-out',
-                      }}
-                    >
-                      <ListItemIcon
+          return (
+            <>
+              <List sx={{ gap: 0.5 }}>
+                {topItems.map((item, index) => {
+                  const isActive = location.pathname === item.path;
+                  return (
+                    <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
+                      <ListItemButton
+                        onClick={() => navigate(item.path)}
+                        selected={isActive}
                         sx={{
-                          minWidth: 0,
-                          color: 'inherit',
-                          justifyContent: 'center',
-                          display: 'flex',
+                          justifyContent: expanded ? 'flex-start' : 'center',
+                          px: expanded ? 2 : 0,
+                          py: 0.8,
+                          borderRadius: 2,
                           alignItems: 'center',
-                          mr: expanded ? 2 : 0,
-                          mt: .5
+                          bgcolor: isActive ? '#F5F5F5' : 'transparent',
+                          color: isActive ? '#8E0000' : '#450001',
+                          '&:hover': { bgcolor: '#F5F5F5' },
+                          gap: expanded ? 1.5 : 0,
+                          transition: 'all 0.3s ease-in-out',
                         }}
                       >
-                        {item.icon}
-                      </ListItemIcon>
-                      {expanded && (
-                        <ListItemText
-                          primary={item.text}
-                          primaryTypographyProps={{
-                            fontWeight: isActive ? 'bold' : 'normal',
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            color: 'inherit',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            alignItems: 'center',
+                            mr: expanded ? 2 : 0,
+                            mt: .5
                           }}
-                        />
-                      )}
-                    </ListItemButton>
-                  </Tooltip>
-                );
-              })}
-            </List>
+                        >
+                          {item.icon}
+                        </ListItemIcon>
+                        {expanded && (
+                          <ListItemText
+                            primary={item.text}
+                            primaryTypographyProps={{
+                              fontWeight: isActive ? 'bold' : 'normal',
+                            }}
+                          />
+                        )}
+                      </ListItemButton>
+                    </Tooltip>
+                  );
+                })}
+              </List>
 
-            <Box sx={{ flexGrow: 1 }} />
-            <List sx={{ gap: 0.5, mb: 2 }}>
-              {bottomItems.map((item, index) => {
-                const isActive = location.pathname === item.path;
-                return (
-                  <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
-                    <ListItemButton
-                      onClick={() => navigate(item.path)}
-                      selected={isActive}
-                      sx={{
-                        justifyContent: expanded ? 'flex-start' : 'center',
-                        px: expanded ? 2 : 0,
-                        py: 0.8,
-                        borderRadius: 2,
-                        alignItems: 'center',
-                        bgcolor: isActive ? '#F5F5F5' : 'transparent',
-                        color: isActive ? '#8E0000' : '#450001',
-                        '&:hover': { bgcolor: '#F5F5F5' },
-                        gap: expanded ? 1.5 : 0,
-                        transition: 'all 0.3s ease-in-out',
-                      }}
-                    >
-                      <ListItemIcon
+              <Box sx={{ flexGrow: 1 }} />
+              <List sx={{ gap: 0.5, mb: 2 }}>
+                {bottomItems.map((item, index) => {
+                  const isActive = location.pathname === item.path;
+                  return (
+                    <Tooltip key={index} title={!expanded ? item.text : ''} placement="right" arrow>
+                      <ListItemButton
+                        onClick={() => navigate(item.path)}
+                        selected={isActive}
                         sx={{
-                          minWidth: 0,
-                          color: 'inherit',
-                          justifyContent: 'center',
-                          display: 'flex',
+                          justifyContent: expanded ? 'flex-start' : 'center',
+                          px: expanded ? 2 : 0,
+                          py: 0.8,
+                          borderRadius: 2,
                           alignItems: 'center',
-                          mr: expanded ? 2 : 0,
+                          bgcolor: isActive ? '#F5F5F5' : 'transparent',
+                          color: isActive ? '#8E0000' : '#450001',
+                          '&:hover': { bgcolor: '#F5F5F5' },
+                          gap: expanded ? 1.5 : 0,
+                          transition: 'all 0.3s ease-in-out',
                         }}
                       >
-                        {item.icon}
-                      </ListItemIcon>
-                      {expanded && (
-                        <ListItemText
-                          primary={item.text}
-                          primaryTypographyProps={{
-                            fontWeight: isActive ? 'bold' : 'normal',
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            color: 'inherit',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            alignItems: 'center',
+                            mr: expanded ? 2 : 0,
                           }}
-                        />
-                      )}
-                    </ListItemButton>
-                  </Tooltip>
-                );
-              })}
-            </List>
-          </>
-        );
-      })()}
+                        >
+                          {item.icon}
+                        </ListItemIcon>
+                        {expanded && (
+                          <ListItemText
+                            primary={item.text}
+                            primaryTypographyProps={{
+                              fontWeight: isActive ? 'bold' : 'normal',
+                            }}
+                          />
+                        )}
+                      </ListItemButton>
+                    </Tooltip>
+                  );
+                })}
+              </List>
+            </>
+          );
+        })()
+      )}
     </Box>
   );
 }
