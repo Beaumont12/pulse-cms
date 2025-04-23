@@ -6,7 +6,6 @@ import {
 import {
   HomeOutlined as HomeIcon,
   PersonOutline as PersonIcon,
-  ContentPasteOutlined as ContentPasteIcon,
   InsertChartOutlined as InsertChartIcon,
   FolderOutlined as FolderIcon,
   NotificationsNone as NotificationsIcon,
@@ -57,12 +56,12 @@ const baseItems = (role) => {
         : role === 'super_admin'
         ? '/super_admin/SuperAdminDashboard'
         : `/${role}/dashboard`
-    },    
+    },
     { text: 'Users', icon: <PersonIcon />, path: `/${role}/${p.Users}` },
     { text: 'Learning Management', icon: <LightbulbOutlinedIcon />, path: `/${role}/${p.Learning}` },
     { text: 'Reports', icon: <InsertChartIcon />, path: `/${role}/${p.Reports}` },
     { text: 'Files', icon: <FolderIcon />, path: `/${role}/${p.Files}` },
-    { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/${p.Notifications}`, hasBadge: true },
+    { text: 'Notifications', icon: <NotificationsIcon />, path: `/${role}/${p.Notifications}` },
     { text: 'Settings', icon: <SettingsIcon />, path: `/${role}/${p.Settings}` },
     { text: 'Help', icon: <InfoIcon />, path: `/${role}/${p.Help}` },
   ];
@@ -72,7 +71,6 @@ const teacherItems = [
   {
     label: 'Manage',
     items: [
-      { text: 'Dashboard', icon: <HomeIcon />, path: '/teacher/dashboard' },
       { text: 'Quizzes', icon: <QuizIcon />, path: '/teacher/quizzes' },
       { text: 'Question Bank', icon: <LibraryBooksIcon />, path: '/teacher/question-bank' },
       { text: 'Courses', icon: <ClassIcon />, path: '/teacher/courses' },
@@ -171,6 +169,33 @@ export default function Sidebar({ expanded }) {
     >
       {role === 'teacher' ? (
         <>
+          {/* + New Quiz Button */}
+          <Box sx={{ px: 2, mb: 2 }}>
+            <Tooltip title={!expanded ? "New Quiz" : ""} placement="right" arrow>
+              <button
+                onClick={() => navigate('/teacher/quizzes/create')}
+                style={{
+                  backgroundColor: '#8E0000',
+                  color: 'white',
+                  padding: '10px 16px',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  width: '100%',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  fontSize: '1rem',
+                }}
+              >
+                <span style={{ fontSize: '1.4rem' }}>+</span>
+                {expanded && <span>New Quiz</span>}
+              </button>
+            </Tooltip>
+          </Box>
+
           {teacherItems.map((group, groupIndex) => (
             <React.Fragment key={groupIndex}>
               {expanded && (
@@ -181,7 +206,7 @@ export default function Sidebar({ expanded }) {
                     fontWeight: 600,
                     px: 2,
                     mb: 0.5,
-                    mt: 2,
+                    mt: 0,
                     fontSize: '0.9rem',
                   }}
                 >

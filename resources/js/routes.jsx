@@ -37,7 +37,7 @@ import AdminSystemMessages from "./Pages/Admin/AdminSystemMessages";
 import AdminSettings from "./Pages/Admin/AdminSettings";
 import AdminHelp from "./Pages/Admin/AdminHelp";
 
-import TeacherDashboard from "./Pages/Teacher/Dashboard";
+import TeacherDashboard from "./Pages/Teacher/TeacherDashboard";
 import Quizzes from "./Pages/Teacher/Quizzes";
 import QuestionBank from "./Pages/Teacher/QuestionBank";
 import Courses from "./Pages/Teacher/Courses";
