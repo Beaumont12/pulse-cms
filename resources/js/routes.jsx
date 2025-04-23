@@ -32,6 +32,8 @@ import AdminDownloadReports from "./Pages/Admin/AdminDownloadReports";
 import AdminUserProgress from "./Pages/Admin/AdminUserProgress";
 import AdminQuizandCourseAnalytics from "./Pages/Admin/AdminQuizandCourseAnalytics";
 import AdminNotifications from "./Pages/Admin/AdminNotifications";
+import AdminNoticeNotification from "./Pages/Admin/AdminNoticeNotification";
+import AdminSystemMessages from "./Pages/Admin/AdminSystemMessages";
 import AdminSettings from "./Pages/Admin/AdminSettings";
 import AdminHelp from "./Pages/Admin/AdminHelp";
 
@@ -46,6 +48,7 @@ import Leaderboard from "./Pages/Teacher/Leaderboard";
 import Participants from "./Pages/Teacher/Participants";
 import Feedback from "./Pages/Teacher/Feedback";
 import TeacherHelp from "./Pages/Teacher/Help";
+
 
 export default function AppRoutes({ location }) {
     return (
@@ -279,6 +282,26 @@ export default function AppRoutes({ location }) {
                     <ProtectedRoute allowedRoles={["admin"]}>
                         <PageWrapper>
                             <AdminNotifications />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/admin/AdminNoticeNotification"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminNoticeNotification />
+                        </PageWrapper>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/admin/AdminSystemMessages"
+                element={
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <PageWrapper>
+                            <AdminSystemMessages />
                         </PageWrapper>
                     </ProtectedRoute>
                 }

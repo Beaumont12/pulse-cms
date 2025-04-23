@@ -19,19 +19,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import EmailIcon from "@mui/icons-material/Email";
 import MessageIcon from "@mui/icons-material/Message";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const AdminNotifications = () => {
+const AdminSystemMessages = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const getCurrentCategory = () => {
-    if (location.pathname.includes("AdminNoticeNotification")) return 1;
-    if (location.pathname.includes("AdminSystemMessages")) return 2;
-    return 0;
-  };
-
-  const [category, setCategory] = useState(getCurrentCategory());
+  const [category, setCategory] = useState(2); // Default to "System messages"
   const [tab, setTab] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -51,19 +44,14 @@ const AdminNotifications = () => {
 
   const notifications = [
     {
-      sender: "Agent",
-      message: "changed your note status (No.2188685)",
-      date: "2017-09-11 19:15:48",
+      sender: "System",
+      message: "Security update applied successfully.",
+      date: "2025-04-17 08:42:10",
     },
     {
-      sender: "Agent",
-      message: "assigned a note to you (No.2188685)",
-      date: "2017-09-11 19:14:32",
-    },
-    {
-      sender: "Agent",
-      message: "assigned a note to you (No.1713862)",
-      date: "2017-09-11 19:13:46",
+      sender: "System",
+      message: "Your session will expire in 10 minutes.",
+      date: "2025-04-16 17:21:30",
     },
   ];
 
@@ -149,9 +137,7 @@ const AdminNotifications = () => {
           <Link underline="hover" color="inherit" href="#">
             Notifications
           </Link>
-          <Typography color="text.primary">
-            {categoryLabels[category]}
-          </Typography>
+          <Typography color="text.primary">System messages</Typography>
         </Breadcrumbs>
 
         {/* Tabs + Action */}
@@ -250,7 +236,7 @@ const AdminNotifications = () => {
           {/* Form Side */}
           <Box sx={{ flex: 2, pr: 2 }}>
             <Typography variant="h6" mb={2}>
-              New Notice
+              New System Message
             </Typography>
             <TextField
               fullWidth
@@ -300,4 +286,4 @@ const AdminNotifications = () => {
   );
 };
 
-export default AdminNotifications;
+export default AdminSystemMessages;

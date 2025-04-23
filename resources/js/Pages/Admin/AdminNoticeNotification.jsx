@@ -19,19 +19,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import EmailIcon from "@mui/icons-material/Email";
 import MessageIcon from "@mui/icons-material/Message";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const AdminNotifications = () => {
+const AdminNoticeNotification = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const getCurrentCategory = () => {
-    if (location.pathname.includes("AdminNoticeNotification")) return 1;
-    if (location.pathname.includes("AdminSystemMessages")) return 2;
-    return 0;
-  };
-
-  const [category, setCategory] = useState(getCurrentCategory());
+  const [category, setCategory] = useState(1); // Default to "Notices"
   const [tab, setTab] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -51,19 +44,14 @@ const AdminNotifications = () => {
 
   const notifications = [
     {
-      sender: "Agent",
-      message: "changed your note status (No.2188685)",
-      date: "2017-09-11 19:15:48",
+      sender: "Admin",
+      message: "New update to policy guidelines.",
+      date: "2025-04-16 10:22:45",
     },
     {
-      sender: "Agent",
-      message: "assigned a note to you (No.2188685)",
-      date: "2017-09-11 19:14:32",
-    },
-    {
-      sender: "Agent",
-      message: "assigned a note to you (No.1713862)",
-      date: "2017-09-11 19:13:46",
+      sender: "HR",
+      message: "Team meeting moved to Friday.",
+      date: "2025-04-15 14:30:00",
     },
   ];
 
@@ -149,9 +137,7 @@ const AdminNotifications = () => {
           <Link underline="hover" color="inherit" href="#">
             Notifications
           </Link>
-          <Typography color="text.primary">
-            {categoryLabels[category]}
-          </Typography>
+          <Typography color="text.primary">Notices</Typography>
         </Breadcrumbs>
 
         {/* Tabs + Action */}
@@ -300,4 +286,4 @@ const AdminNotifications = () => {
   );
 };
 
-export default AdminNotifications;
+export default AdminNoticeNotification;
