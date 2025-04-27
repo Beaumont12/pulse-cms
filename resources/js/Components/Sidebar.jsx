@@ -71,26 +71,26 @@ const teacherItems = [
   {
     label: 'Manage',
     items: [
-      { text: 'Quizzes', icon: <QuizIcon />, path: '/teacher/quizzes' },
-      { text: 'Question Bank', icon: <LibraryBooksIcon />, path: '/teacher/question-bank' },
-      { text: 'Courses', icon: <ClassIcon />, path: '/teacher/courses' },
-      { text: 'Avatars', icon: <PersonIcon />, path: '/teacher/avatars' },
+      { text: 'Quizzes', icon: <QuizIcon />, path: '/teacher/TeacherQuizzes' },
+      { text: 'Question Bank', icon: <LibraryBooksIcon />, path: '/teacher/TeacherQuestionBank' },
+      { text: 'Courses', icon: <ClassIcon />, path: '/teacher/TeacherCourses' },
+      { text: 'Avatars', icon: <PersonIcon />, path: '/teacher/TeacherAvatars' },
     ],
   },
   {
     label: 'Play',
     items: [
-      { text: 'Active', icon: <PlayIcon />, path: '/teacher/active' },
-      { text: 'Reports', icon: <AssessmentIcon />, path: '/teacher/reports' },
-      { text: 'Leaderboard', icon: <LeaderboardIcon />, path: '/teacher/leaderboard' },
-      { text: 'Participants', icon: <PersonIcon />, path: '/teacher/participants' },
+      { text: 'Active', icon: <PlayIcon />, path: '/teacher/TeacherActive' },
+      { text: 'Reports', icon: <AssessmentIcon />, path: '/teacher/TeacherReports' },
+      { text: 'Leaderboard', icon: <LeaderboardIcon />, path: '/teacher/TeacherLeaderboard' },
+      { text: 'Participants', icon: <PersonIcon />, path: '/teacher/TeacherParticipants' },
     ],
   },
   {
     label: 'Product',
     items: [
-      { text: 'Feedback', icon: <FeedbackIcon />, path: '/teacher/feedback' },
-      { text: 'Help', icon: <HelpIcon />, path: '/teacher/help' },
+      { text: 'Feedback', icon: <FeedbackIcon />, path: '/teacher/TeacherFeedback' },
+      { text: 'Help', icon: <HelpIcon />, path: '/teacher/TeacherHelp' },
     ],
   },
 ];

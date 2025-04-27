@@ -38,16 +38,16 @@ import AdminSettings from "./Pages/Admin/AdminSettings";
 import AdminHelp from "./Pages/Admin/AdminHelp";
 
 import TeacherDashboard from "./Pages/Teacher/TeacherDashboard";
-import Quizzes from "./Pages/Teacher/Quizzes";
-import QuestionBank from "./Pages/Teacher/QuestionBank";
-import Courses from "./Pages/Teacher/Courses";
-import Avatars from "./Pages/Teacher/Avatars";
-import Active from "./Pages/Teacher/Active";
-import Reports from "./Pages/Teacher/Reports";
-import Leaderboard from "./Pages/Teacher/Leaderboard";
-import Participants from "./Pages/Teacher/Participants";
-import Feedback from "./Pages/Teacher/Feedback";
-import TeacherHelp from "./Pages/Teacher/Help";
+import TeacherQuizzes from "./Pages/Teacher/TeacherQuizzes";
+import TeacherQuestionBank from "./Pages/Teacher/TeacherQuestionBank";
+import TeacherCourses from "./Pages/Teacher/TeacherCourses";
+import TeacherAvatars from "./Pages/Teacher/TeacherAvatars";
+import TeacherActive from "./Pages/Teacher/TeacherActive";
+import TeacherReports from "./Pages/Teacher/TeacherReports";
+import TeacherLeaderboard from "./Pages/Teacher/TeacherLeaderboard";
+import TeacherParticipants from "./Pages/Teacher/TeacherParticipants";
+import TeacherFeedback from "./Pages/Teacher/TeacherFeedback";
+import TeacherHelp from "./Pages/Teacher/TeacherHelp";
 
 
 export default function AppRoutes({ location }) {
@@ -380,97 +380,97 @@ export default function AppRoutes({ location }) {
                 }
             />
             <Route
-                path="/teacher/quizzes"
+                path="/teacher/TeacherQuizzes"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Quizzes />
+                            <TeacherQuizzes />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/question-bank"
+                path="/teacher/TeacherQuestionBank"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <QuestionBank />
+                            <TeacherQuestionBank />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/courses"
+                path="/teacher/TeacherCourses"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Courses />
+                            <TeacherCourses />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/avatars"
+                path="/teacher/TeacherAvatars"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Avatars />
+                            <TeacherAvatars />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/active"
+                path="/teacher/TeacherActive"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Active />
+                            <TeacherActive />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/reports"
+                path="/teacher/TeacherReports"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Reports />
+                            <TeacherReports />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/leaderboard"
+                path="/teacher/TeacherLeaderboard"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Leaderboard />
+                            <TeacherLeaderboard />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/participants"
+                path="/teacher/TeacherParticipants"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Participants />
+                            <TeacherParticipants />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/feedback"
+                path="/teacher/TeacherFeedback"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
-                            <Feedback />
+                            <TeacherFeedback />
                         </PageWrapper>
                     </ProtectedRoute>
                 }
             />
             <Route
-                path="/teacher/help"
+                path="/teacher/TeacherHelp"
                 element={
                     <ProtectedRoute allowedRoles={["teacher"]}>
                         <PageWrapper>
