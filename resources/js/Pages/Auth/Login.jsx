@@ -111,72 +111,46 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError('');
+
+    if (!email.toLowerCase().endsWith('@phinmaed.com')) {
+      const message = "Only @phinmaed.com email accounts are allowed.";
+      setError(message);
+      setDisplayedText(message);
+      setLoading(false);
+      return;
+    }
+
     try {
-      console.log('[DEBUG] Attempting sign-in with:', email);
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
-      console.log('[DEBUG] Sign-in successful. UID:', uid);
-  
       const token = await userCredential.user.getIdToken();
-      localStorage.setItem('authToken', token);  // Store token in localStorage
-      console.log('[DEBUG] Token stored in localStorage:', token);
-  
+      localStorage.setItem('authToken', token);
       const roleRef = ref(db, `users/${uid}/role`);
       const roleSnap = await get(roleRef);
-      console.log('[DEBUG] Role snapshot exists:', roleSnap.exists());
-      console.log('[DEBUG] Role snapshot value:', roleSnap.val());
-  
       const role = roleSnap.exists() ? roleSnap.val() : null;
-  
-      // Store the role in localStorage
       if (role) {
-        localStorage.setItem('userRole', role);  // Store role in localStorage
+        localStorage.setItem('userRole', role);
       }
-  
-      switch (role) {
-        case 'super_admin':
-          setSuccess('Login successful! Redirecting...');
-          fadeOutAudio();
-          setTimeout(() => {
-            setSuccess('');
-            navigate('/super_admin/dashboard');
-          }, 2000);
-          break;
-        case 'admin':
-          setSuccess('Login successful! Redirecting...');
-          fadeOutAudio();
-          setTimeout(() => {
-            setSuccess('');
-            navigate('/admin/dashboard');
-          }, 2000);
-          break;
-        case 'teacher':
-          setSuccess('Login successful! Redirecting...');
-          fadeOutAudio();
-          setTimeout(() => {
-            setSuccess('');
-            navigate('/teacher/dashboard');
-          }, 2000);
-          break;
-        case 'student':
-          setSuccess('Login successful! Redirecting...');
-          fadeOutAudio();
-          setTimeout(() => {
-            setSuccess('');
-            navigate('/student/game');
-          }, 2000);
-          break;
-        default:
-          setError('No role assigned. Please contact admin.');
-          setDisplayedText("Hmm... I couldn't detect your role. You might want to page IT for this one!");
-          console.warn('[DEBUG] No role found for user:', uid);
+      const routeMap = {
+        'super_admin': '/super_admin/SuperAdminDashboard',
+        'admin': '/admin/AdminDashboard',
+        'teacher': '/teacher/dashboard',
+        'student': '/student/game'
+      };
+      if (routeMap[role]) {
+        setSuccess('Login successful! Redirecting...');
+        fadeOutAudio();
+        setTimeout(() => {
+          setSuccess('');
+          navigate(routeMap[role]);
+        }, 2000);
+      } else {
+        setError('No role assigned. Please contact admin.');
+        setDisplayedText("Hmm... I couldn't detect your role. You might want to page IT for this one!");
       }
     } catch (err) {
-      console.error('[DEBUG] Login error:', err);
       const errorCode = err.code;
-      const errorMessage = err.message;
       let friendlyMessage = '';
-  
       switch (errorCode) {
         case 'auth/invalid-email':
           friendlyMessage = "Invalid email format. Double-check that address, doc!";
@@ -193,15 +167,12 @@ export default function Login() {
         default:
           friendlyMessage = `Login failed. Something went wrong during diagnosis. (${errorCode || 'unknown error'})`;
       }
-  
       setError(friendlyMessage);
       setDisplayedText(friendlyMessage);
-      console.warn('[DEBUG] Firebase error code:', errorCode);
-      console.warn('[DEBUG] Firebase error message:', errorMessage);
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   return (
     <>
@@ -440,23 +411,25 @@ export default function Login() {
 
             <form onSubmit={handleLogin}>
               <TextField
-                fullWidth
-                label="Email"
-                variant="outlined"
-                margin="normal"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                sx={{
-                  bgcolor: '#ffffff',
-                  borderRadius: 2,
-                  input: { color: '#450001' },
-                  '& .MuiInputLabel-root': {
-                    color: '#660200',
-                    fontWeight: 600,
-                  }
-                }}
-              />
+  fullWidth
+  label="Email"
+  variant="outlined"
+  placeholder="                                                                                                    @phinmaed.com"
+  margin="normal"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  required
+  sx={{
+    bgcolor: '#ffffff',
+    borderRadius: 2,
+    input: { color: '#450001' },
+    '& .MuiInputLabel-root': {
+      color: '#660200',
+      fontWeight: 600,
+    }
+  }}
+/>
+
               <TextField
                 fullWidth
                 label="Password"
