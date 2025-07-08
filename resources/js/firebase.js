@@ -5,6 +5,7 @@ import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyB2Fr3IgAmTx2BWMyakkYr2QpU721kOoio",
     authDomain: "pulse-cms.firebaseapp.com",

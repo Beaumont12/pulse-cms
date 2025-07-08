@@ -200,21 +200,36 @@ const SuperAdminAddUser = () => {
             </Box>
 
             {/* Content Area */}
-            <Box sx={{ flexGrow: 1, p: 4 }}>
-                <Breadcrumbs
-                    separator={<NavigateNextIcon fontSize="small" />}
-                    sx={{ mb: 4 }}
-                >
-                    <Link underline="hover" color="inherit" href="#">
-                        User Management
-                    </Link>
-                    <Typography color="text.primary">Add User</Typography>
-                </Breadcrumbs>
+            <Box
+  sx={{
+    flexGrow: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh", // full height minus navbar
+    px: 2,
+    flexDirection: "column",
+  }}
+>
+  <Breadcrumbs
+    separator={<NavigateNextIcon fontSize="small" />}
+    sx={{ mb: 2, alignSelf: "flex-start" }}
+  >
+    <Link underline="hover" color="inherit" href="#">
+      User Management
+    </Link>
+    <Typography color="text.primary">Add User</Typography>
+  </Breadcrumbs>
 
-                <Paper
-                    elevation={2}
-                    sx={{ maxWidth: 500, p: 3, borderRadius: 2 }}
-                >
+  <Paper
+    elevation={2}
+    sx={{
+      width: "100%",
+      maxWidth: 500,
+      p: 3,
+      borderRadius: 2,
+    }}
+  >
                     <Typography
                         variant="h6"
                         fontWeight="bold"
